@@ -218,6 +218,58 @@
   .ko-round-head:first-child{margin-top:6px}
   .ko-round-sub{font-size:11.5px; letter-spacing:.1em; font-weight:600; color:var(--muted-2)}
   .champ-team{font-family:"Barlow Condensed"; font-weight:700; font-size:32px; line-height:1.15; margin-top:2px}
+
+  /* ---- compact bracket view ---- */
+  .kb{display:flex; align-items:stretch; justify-content:center; gap:16px; margin:20px 0 4px}
+  .kb-half{display:flex; align-items:stretch; gap:16px; flex:1; min-width:0}
+  .kb-bot{flex-direction:row-reverse}
+  .kb-col{display:flex; flex-direction:column; justify-content:space-around; flex:1; min-width:0; gap:10px}
+  .kb-pair{position:relative; display:flex; flex-direction:column; justify-content:space-around; flex:1; gap:10px}
+  /* connector joining a pair into the next round */
+  .kb-pair:not(.single)::after{content:''; position:absolute; right:-9px; top:25%; bottom:25%; width:8px;
+    border:1px solid var(--line); border-left:0}
+  .kb-bot .kb-pair:not(.single)::after{right:auto; left:-9px; border:1px solid var(--line); border-right:0}
+  .kb-pair.single::after{content:''; position:absolute; right:-9px; top:50%; width:8px; border-top:1px solid var(--line)}
+  .kb-bot .kb-pair.single::after{right:auto; left:-9px}
+  .kb-m{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); overflow:hidden;
+    cursor:pointer; transition:border-color .12s}
+  .kb-m:hover{border-color:var(--A)}
+  .kb-lbl{font-family:"Barlow Condensed"; font-weight:600; text-transform:uppercase; letter-spacing:.08em;
+    font-size:9.5px; color:var(--muted-2); padding:3px 7px 2px; background:var(--surface-2);
+    border-bottom:1px solid var(--line); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .kb-t{display:flex; align-items:center; gap:5px; padding:5px 7px; font-size:12px; font-weight:600}
+  .kb-t + .kb-t{border-top:1px solid var(--line)}
+  .kb-t.win{color:var(--qf)}
+  .kb-t.lose{color:var(--muted-2)}
+  .kb-t.kb-tbd{color:var(--muted-2); font-weight:400; font-style:italic; font-size:11px}
+  .kb-fl{font-size:12px; flex:none}
+  .kb-cd{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .kb-ha{font-size:8px; font-weight:700; color:var(--A); border:1px solid rgba(199,147,32,.5);
+    border-radius:var(--r); padding:0 2px; flex:none}
+  .kb-sc{font-variant-numeric:tabular-nums; font-weight:700; flex:none}
+  .kb-note{font-size:9.5px; color:var(--muted-2); text-align:center; padding:2px 4px 3px;
+    border-top:1px solid var(--line); font-family:"Barlow Condensed"; letter-spacing:.08em; text-transform:uppercase}
+  .kb-final{display:flex; flex-direction:column; justify-content:center; align-items:stretch; gap:6px;
+    flex:0 0 150px; text-align:center}
+  .kb-cup{font-size:30px; line-height:1}
+  .kb-flbl{font-family:"Barlow Condensed"; font-weight:700; text-transform:uppercase; letter-spacing:.12em;
+    font-size:11px; color:var(--muted)}
+  .kb-final .kb-m{border-color:var(--A)}
+  .kb-champ{font-family:"Barlow Condensed"; font-weight:700; font-size:17px; color:var(--A); margin-top:2px}
+  .kb-hint{text-align:center; font-size:11.5px; color:var(--muted-2); margin:12px 0 0}
+  @media (max-width:900px){
+    /* stack the two halves; each reads left-to-right across three columns */
+    .kb{flex-direction:column; gap:12px}
+    .kb-bot{flex-direction:row}
+    .kb-bot .kb-pair:not(.single)::after{right:-9px; left:auto; border:1px solid var(--line); border-left:0}
+    .kb-bot .kb-pair.single::after{right:-9px; left:auto}
+    .kb-final{flex:none; flex-direction:row; align-items:center; justify-content:center; gap:10px;
+      border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:10px 0}
+    .kb-final .kb-m{min-width:150px}
+    .kb-cup{font-size:22px}
+    .kb-col{gap:8px}
+    .kb-pair{gap:8px}
+  }
   .tie-slot.pathslot{flex-wrap:wrap}
   @media (max-width:760px){ .pots-4{grid-template-columns:1fr 1fr} }
 
@@ -552,9 +604,14 @@
             <small>Expected total goals in an even game.</small>
           </div>
           <div class="ctrl">
-            <label>Supremacy divisor <span class="val" id="v-d">320</span></label>
-            <input type="range" id="dv" min="200" max="500" step="10" value="320">
+            <label>Supremacy divisor <span class="val" id="v-d">280</span></label>
+            <input type="range" id="dv" min="200" max="500" step="10" value="280">
             <small>Higher = rating gaps matter less.</small>
+          </div>
+          <div class="ctrl">
+            <label>Squad-value weight <span class="val" id="v-mvw">0.40</span></label>
+            <input type="range" id="mvw" min="0" max="1" step="0.05" value="0.4">
+            <small>Blends Transfermarkt average squad value into the starting ratings. 0 = pure Elo.</small>
           </div>
           <div class="ctrl">
             <label>Draw bias &rho; <span class="val" id="v-rho">-0.11</span></label>
@@ -743,6 +800,7 @@
       <h2 class="stage-title">Euro 2028 <span style="color:var(--A)">Knockouts</span></h2>
       <p class="stage-lede">Round of 16 through to the final at Wembley on 9 July 2028. Third-placed teams are allocated by UEFA's combination table. Level matches go to extra time and then penalties. There is no third-place play-off.</p>
       <div class="cmdbar">
+        <span id="ko-viewslot"></span>
         <span id="ko-simslot"></span>
         <button class="btn btn-ghost hidden" id="kobtn-elo">View Elo ratings</button>
         <button class="btn btn-red hidden" id="kobtn-reset">Restart knockouts</button>
@@ -859,7 +917,40 @@ const LEAGUE_META = {
  C:{blurb:'1st → promoted · 2nd → promotion play-offs · worst two 4ths → relegated, best two → play-offs'},
  D:{blurb:'1st → promoted · 2nd → promotion play-offs'}
 };
-const P = { HA:80, MU:2.6, D:320, RHO:-0.11, FLOOR:0.15, MAXG:10, K:40 };
+// ---- Perceived-strength inputs ----
+// Transfermarkt average market value per player (EUR m), July 2026.
+const MV={
+ 'France':61.08,'England':56.66,'Spain':49.72,'Portugal':39.63,'Germany':37.00,'Netherlands':30.35,
+ 'Norway':24.57,'Belgium':21.83,'Türkiye':18.22,'Sweden':15.93,'Croatia':15.67,'Denmark':15.87,
+ 'Switzerland':13.48,'Italy':13.87,'Greece':11.02,'Georgia':9.69,'Ukraine':9.88,'Austria':9.73,
+ 'Poland':8.93,'Serbia':7.76,'Hungary':7.21,'Wales':6.69,'Scotland':6.55,'Czechia':6.81,
+ 'Bosnia & Herz.':6.36,'Kosovo':5.28,'Rep. Ireland':5.47,'Slovenia':4.02,'Albania':3.42,
+ 'Iceland':3.69,'Northern Ireland':3.47,'Montenegro':2.49,'Israel':2.96,'Slovakia':2.30,
+ 'Romania':2.37,'Finland':1.57,'Armenia':1.56,'North Macedonia':1.38,'Bulgaria':1.21,
+ 'Azerbaijan':0.803,'Cyprus':0.737,'Kazakhstan':0.782,'Belarus':0.729,'Lithuania':0.711,
+ 'Malta':0.556,'Luxembourg':0.651,'Estonia':0.515,'Moldova':0.372,'Latvia':0.375,
+ 'Faroe Islands':0.223,'Andorra':0.143,'Gibraltar':0.073,'San Marino':0.048,'Liechtenstein':0.026};
+// Manual rating bumps (Elo points) for pedigree that neither results nor transfer fees capture.
+const BUMP={'France':80,'Germany':130,'Portugal':70};
+// Pristine eloratings.net baseline; ELO0 holds the blended ratings actually used.
+const ELO_RAW={...ELO0};
+// Rebuild ELO0 = (1-w)*Elo + w*ValueRating + manual bump. Value rating maps log(avg value)
+// onto the Elo scale by z-score, so the two are directly comparable.
+function applyRatingModel(){
+  const teams=Object.keys(ELO_RAW);
+  const lv=teams.map(t=>Math.log(MV[t]||0.02));
+  const mL=lv.reduce((a,b)=>a+b,0)/lv.length;
+  const sL=Math.sqrt(lv.reduce((a,b)=>a+(b-mL)**2,0)/lv.length)||1;
+  const ev=teams.map(t=>ELO_RAW[t]);
+  const mE=ev.reduce((a,b)=>a+b,0)/ev.length;
+  const sE=Math.sqrt(ev.reduce((a,b)=>a+(b-mE)**2,0)/ev.length)||1;
+  const w=P.MVW;
+  teams.forEach(t=>{
+    const vr=mE+sE*((Math.log(MV[t]||0.02)-mL)/sL);
+    ELO0[t]=Math.round((1-w)*ELO_RAW[t] + w*vr + (BUMP[t]||0));
+  });
+}
+const P = { HA:80, MU:2.6, D:280, RHO:-0.11, FLOOR:0.15, MAXG:10, K:40, MVW:0.4 };
 
 // ================= MODEL =================
 function poisson(k,l){ let p=Math.exp(-l); for(let i=1;i<=k;i++) p*=l/i; return p; }
@@ -3229,6 +3320,7 @@ function fillFdrawSlot(g,pos,team,fromPotId){
 }
 function renderFdraw(){
   stopAnim();
+  koCacheClear();
   const D=S.fdraw || (S.fdraw=newFdraw());
   const board=$('fdrawboard'); board.innerHTML='';
   ['fdrawbtn-elo','fdrawbtn-reset'].forEach(id=>$(id).classList.add('hidden'));
@@ -3377,6 +3469,7 @@ function fgAllFilled(md){
   return true;
 }
 function fillFgMd(md, keepTyped){
+  koCacheClear();
   const elo=fgState(md);
   for(let g=0;g<6;g++){
     fgFixtures(g,md).forEach((fx,i)=>{
@@ -3389,6 +3482,7 @@ function fillFgMd(md, keepTyped){
   }
 }
 function advanceFg(){
+  koCacheClear();
   const md=fgCurMd();
   if(!fgAllFilled(md)) return;
   S.fg.confirmed[md]={...S.fg.entry}; S.fg.entry={};
@@ -3433,6 +3527,7 @@ function fgGroupCard(g, md, locked){
 }
 function renderFg(){
   stopAnim();
+  koCacheClear();
   const FG=S.fg || (S.fg=newFg());
   const board=$('fgboard'); board.innerHTML='';
   ['fgbtn-adv','fgbtn-elo','fgbtn-reset','fgbtn-knockout'].forEach(id=>$(id).classList.add('hidden'));
@@ -3562,11 +3657,22 @@ function bindFgInputs(){
 }
 
 // ================= EURO 2028 FINALS — KNOCKOUT STAGE =================
-function newKo(){ return {sm:{}, smEt:{}, smP:{}}; }
+function newKo(){ return {sm:{}, smEt:{}, smP:{}, view:'rounds'}; }
 // Home advantage: only if the team is a host AND the venue is in its own country.
 function koHomeNation(venue){ return VENUE_NATION[venue]; }
-function koHa(team, venue){ return (HOSTS.includes(team) && VENUE_NATION[venue]===team) ? P.HA : 0; }
-function koDr(elo,h,a,venue){ return (elo[h]+koHa(h,venue)) - (elo[a]+koHa(a,venue)); }
+// Home advantage tapers through the knockouts as a ratio of the base setting, so it stays
+// consistent if P.HA is changed: R16 full, QF three-quarters, SF half, final a quarter.
+const KO_HA_RATIO={r:1, q:0.75, s:0.5, f:0.25};
+// Knockout matches use a slightly wider supremacy divisor, adding variance for favourites.
+const KO_D_MULT=1.1;
+function koRoundKey(id){ const c=(id||'')[0]; return (c==='r'||c==='q'||c==='s')?c:'f'; }
+function koHa(team, venue, id){
+  if(!(HOSTS.includes(team) && VENUE_NATION[venue]===team)) return 0;
+  const ratio=KO_HA_RATIO[koRoundKey(id)];
+  return P.HA * (ratio===undefined?1:ratio);
+}
+function koD(){ return P.D*KO_D_MULT; }
+function koDr(elo,h,a,venue,id){ return (elo[h]+koHa(h,venue,id)) - (elo[a]+koHa(a,venue,id)); }
 // Which third-placed teams qualified, and the assignment to each winner.
 function koThirdMap(){
   const {qualified}=fgBestThirds();
@@ -3606,23 +3712,37 @@ function koSingle(id){
   if(!pairOk(p)||p[0]===p[1]) return r;
   r.byPens=true; r.winner=p[0]>p[1]?0:1; return r;
 }
+// The group-stage-derived parts of the bracket (baseline Elo + R16 line-up) cannot change
+// while the knockouts are being played, so they're cached. Cleared whenever the group stage
+// or the finals draw is touched.
+let _koCache=null;
+function koCacheClear(){ _koCache=null; }
+function koCache(){
+  if(!_koCache){
+    const tmap=koThirdMap();
+    _koCache={
+      base:fgState(3),
+      tmap,
+      r16:KO_R16.map(spec=>({id:spec.id, venue:spec.venue, date:spec.date,
+        h:koResolveRef(spec.h,tmap), a:koResolveRef(spec.a,tmap),
+        hLabel:koRefLabel(spec.h,tmap), aLabel:koRefLabel(spec.a,tmap)}))
+    };
+  }
+  return _koCache;
+}
 // Full bracket. Returns rounds with resolved (or null) teams.
 function koBracket(){
-  const tmap=koThirdMap();
-  const m={}; // id -> {id,h,a,hLabel,aLabel,venue,date}
-  KO_R16.forEach(spec=>{
-    m[spec.id]={id:spec.id, venue:spec.venue, date:spec.date,
-      h:koResolveRef(spec.h,tmap), a:koResolveRef(spec.a,tmap),
-      hLabel:koRefLabel(spec.h,tmap), aLabel:koRefLabel(spec.a,tmap)};
-  });
+  const C=koCache();
+  const m={};
+  C.r16.forEach(r=>{ m[r.id]={...r}; });
   const winnerOf=id=>{ const s=koSingle(id), mm=m[id]; if(!mm||s.winner===null) return null; return s.winner===0?mm.h:mm.a; };
   const later=(spec,labelPrefix)=>{
     m[spec.id]={id:spec.id, venue:spec.venue, date:spec.date,
       h:winnerOf(spec.from[0]), a:winnerOf(spec.from[1]),
       hLabel:`Winner ${labelPrefix[0]}`, aLabel:`Winner ${labelPrefix[1]}`};
   };
-  KO_QF.forEach((spec,i)=>later(spec,[`R16-${KO_R16.findIndex(x=>x.id===spec.from[0])+1}`,`R16-${KO_R16.findIndex(x=>x.id===spec.from[1])+1}`]));
-  KO_SF.forEach((spec,i)=>later(spec,[`QF${KO_QF.findIndex(x=>x.id===spec.from[0])+1}`,`QF${KO_QF.findIndex(x=>x.id===spec.from[1])+1}`]));
+  KO_QF.forEach(spec=>later(spec,[`R16-${KO_R16.findIndex(x=>x.id===spec.from[0])+1}`,`R16-${KO_R16.findIndex(x=>x.id===spec.from[1])+1}`]));
+  KO_SF.forEach(spec=>later(spec,[`QF${KO_QF.findIndex(x=>x.id===spec.from[0])+1}`,`QF${KO_QF.findIndex(x=>x.id===spec.from[1])+1}`]));
   later(KO_FINAL,['SF1','SF2']);
   return [
     {name:'Round of 16', matches:KO_R16.map((s,i)=>({...m[s.id], label:`R16-${i+1}`}))},
@@ -3633,7 +3753,7 @@ function koBracket(){
 }
 // Elo through the group stage plus any entered knockout matches.
 function koElo(){
-  const elo={...fgState(3)};
+  const elo={...koCache().base};
   if(!S.ko||!fgComplete()) return elo;
   for(const rd of koBracket()){
     for(const mt of rd.matches){
@@ -3641,7 +3761,7 @@ function koElo(){
       const sc=S.ko.sm[mt.id]; if(!pairOk(sc)) continue;
       let hg=sc[0], ag=sc[1];
       const et=S.ko.smEt[mt.id]; if(pairOk(et)){ hg+=et[0]; ag+=et[1]; }
-      const dr=koDr(elo,mt.h,mt.a,mt.venue);
+      const dr=koDr(elo,mt.h,mt.a,mt.venue,mt.id);
       const we=1/(1+Math.pow(10,-dr/400));
       const w=hg>ag?1:(hg===ag?0.5:0);
       const N=Math.abs(hg-ag), G=N<=1?1:(N===2?1.5:(11+N)/8);
@@ -3655,19 +3775,19 @@ function koFill(mt, preserve){
   const D=S.ko;
   if(preserve && pairOk(D.sm[mt.id])) return;
   const elo=koElo();
-  const sup=koDr(elo,mt.h,mt.a,mt.venue)/P.D;
+  const sup=koDr(elo,mt.h,mt.a,mt.venue,mt.id)/koD();
   D.sm[mt.id]=sampleScore(Math.max((P.MU+sup)/2,P.FLOOR),Math.max((P.MU-sup)/2,P.FLOOR));
 }
 function koResolve(mt){
   const D=S.ko; let s=koSingle(mt.id);
   const elo=koElo();
-  const sup=koDr(elo,mt.h,mt.a,mt.venue)/P.D;
+  const sup=koDr(elo,mt.h,mt.a,mt.venue,mt.id)/koD();
   if(s.needEt&&!pairOk(D.smEt[mt.id])){
     D.smEt[mt.id]=sampleScore(Math.max((P.MU+sup)/2,P.FLOOR)/3,Math.max((P.MU-sup)/2,P.FLOOR)/3);
     s=koSingle(mt.id);
   }
   if(s.needPens&&!pairOk(D.smP[mt.id])){
-    const p=1/(1+Math.pow(10,-koDr(elo,mt.h,mt.a,mt.venue)/400));
+    const p=1/(1+Math.pow(10,-koDr(elo,mt.h,mt.a,mt.venue,mt.id)/400));
     const hw=Math.random()<p, win=3+Math.floor(Math.random()*3), lose=Math.max(0,win-1-Math.floor(Math.random()*3));
     D.smP[mt.id]=hw?[win,lose]:[lose,win];
   }
@@ -3728,7 +3848,7 @@ function koCard(mt,gold){
     body=`<div class="qf-body"><div class="leg-label">${venue}</div>
       <div class="fx"><span class="rest">${mt.hLabel} v ${mt.aLabel} \u2014 to be decided</span></div></div>`;
   } else {
-    const haTag=t=>koHa(t,mt.venue)>0?'<span class="host-star">Home</span>':'';
+    const haTag=t=>koHa(t,mt.venue,mt.id)>0?'<span class="host-star">Home</span>':'';
     let lbl=venue, rowBlock;
     if(s.ready&&s.needEt){
       const sc=D.sm[mt.id];
@@ -3750,27 +3870,17 @@ function koCard(mt,gold){
   card.innerHTML=`<div class="qf-head"><span class="qf-title">${mt.label}</span><span class="qf-agg">${status}</span></div>${body}`;
   return card;
 }
-function renderKo(){
-  stopAnim();
-  const D=S.ko || (S.ko=newKo());
-  const board=$('koboard'); board.innerHTML='';
-  ['kobtn-elo','kobtn-reset'].forEach(id=>$(id).classList.add('hidden'));
-  const ss=$('ko-simslot'); if(ss) ss.innerHTML='';
-  if(!fgComplete()){ board.innerHTML='<p class="slots-note">Finish the group stage first.</p>'; return; }
-  const B=koBracket();
+function koSections(board,B){
   const section=(title,sub)=>{ const h=document.createElement('div'); h.className='ko-round-head';
     h.innerHTML=`${title}${sub?`<span class="ko-round-sub">${sub}</span>`:''}`; return h; };
-  // Round of 16 — two-column grid of finals-style cards
   board.appendChild(section('Round of 16','24\u201327 June'));
   const g1=document.createElement('div'); g1.className='qf-grid';
   B[0].matches.forEach((mt,i)=>g1.appendChild(koCard(mt,i%2===0)));
   board.appendChild(g1);
-  // Quarter-finals
   board.appendChild(section('Quarter-finals','30 June \u2013 1 July'));
   const g2=document.createElement('div'); g2.className='qf-grid';
   B[1].matches.forEach((mt,i)=>g2.appendChild(koCard(mt,i%2===0)));
   board.appendChild(g2);
-  // Semi-finals + Final as a bracket, exactly like the Nations League finals page
   board.appendChild(section('Semi-finals & final','4\u20139 July \u00b7 Wembley'));
   const bg=document.createElement('div'); bg.className='bracket-grid';
   const colL=document.createElement('div'); colL.className='bk-col';
@@ -3781,9 +3891,89 @@ function renderKo(){
   colR.appendChild(koCard(B[3].matches[0],true));
   bg.appendChild(colL); bg.appendChild(conn); bg.appendChild(colR);
   board.appendChild(bg);
-  // champions banner
+}
+// ---- compact bracket view ----
+function kbMatch(mt){
+  const s=koSingle(mt.id), D=S.ko;
+  const el=document.createElement('div'); el.className='kb-m';
+  const row=(team,label,idx)=>{
+    if(!team) return `<div class="kb-t kb-tbd"><span class="kb-cd">${label}</span></div>`;
+    const cls = s.winner===null?'':(s.winner===idx?' win':' lose');
+    const sc = s.ready ? (idx===0?s.h:s.a) : '';
+    const ha = koHa(team,mt.venue,mt.id)>0?'<span class="kb-ha">H</span>':'';
+    return `<div class="kb-t${cls}"><span class="kb-fl">${FLAG[team]}</span><span class="kb-cd">${CODE[team]||team}</span>${ha}<span class="kb-sc">${sc}</span></div>`;
+  };
+  const note = s.byPens?`<div class="kb-note">pens ${D.smP[mt.id][0]}\u2013${D.smP[mt.id][1]}</div>`
+             : (s.afterEt?'<div class="kb-note">a.e.t.</div>':'');
+  el.innerHTML=`<div class="kb-lbl">${mt.label} \u00b7 ${mt.venue}</div>${row(mt.h,mt.hLabel,0)}${row(mt.a,mt.aLabel,1)}${note}`;
+  el.title=`${mt.label} \u00b7 ${mt.venue}, ${mt.date} \u2014 tap to edit`;
+  el.addEventListener('click',()=>{ S.ko.view='rounds'; renderKo(); });
+  return el;
+}
+function kbCol(matches,pairUp){
+  const col=document.createElement('div'); col.className='kb-col';
+  if(pairUp){
+    for(let i=0;i<matches.length;i+=2){
+      const pr=document.createElement('div'); pr.className='kb-pair';
+      pr.appendChild(kbMatch(matches[i]));
+      if(matches[i+1]) pr.appendChild(kbMatch(matches[i+1]));
+      col.appendChild(pr);
+    }
+  } else {
+    const pr=document.createElement('div'); pr.className='kb-pair single';
+    matches.forEach(mt=>pr.appendChild(kbMatch(mt)));
+    col.appendChild(pr);
+  }
+  return col;
+}
+function renderKoBracket(board,B){
+  const R=B[0].matches, Q=B[1].matches, SF=B[2].matches, F=B[3].matches[0];
+  const wrap=document.createElement('div'); wrap.className='kb';
+  // top half: R16 1-4 -> QF1,QF2 -> SF1
+  const top=document.createElement('div'); top.className='kb-half kb-top';
+  top.appendChild(kbCol(R.slice(0,4),true));
+  top.appendChild(kbCol(Q.slice(0,2),true));
+  top.appendChild(kbCol([SF[0]],false));
+  // centre: final
+  const mid=document.createElement('div'); mid.className='kb-final';
   const champ=koChampion();
-  if(champ){
+  mid.innerHTML=`<div class="kb-cup">\ud83c\udfc6</div><div class="kb-flbl">Final \u00b7 Wembley</div>`;
+  mid.appendChild(kbMatch(F));
+  if(champ){ const c=document.createElement('div'); c.className='kb-champ'; c.innerHTML=`${FLAG[champ]} ${champ}`; mid.appendChild(c); }
+  // bottom half: R16 5-8 -> QF3,QF4 -> SF2 (mirrored on wide screens)
+  const bot=document.createElement('div'); bot.className='kb-half kb-bot';
+  bot.appendChild(kbCol(R.slice(4,8),true));
+  bot.appendChild(kbCol(Q.slice(2,4),true));
+  bot.appendChild(kbCol([SF[1]],false));
+  wrap.appendChild(top); wrap.appendChild(mid); wrap.appendChild(bot);
+  board.appendChild(wrap);
+  const hint=document.createElement('p'); hint.className='kb-hint';
+  hint.textContent='Tap any match to open the full card and edit the score.';
+  board.appendChild(hint);
+}
+function renderKo(){
+  stopAnim();
+  const D=S.ko || (S.ko=newKo());
+  if(D.view!=='bracket') D.view='rounds';
+  const board=$('koboard'); board.innerHTML='';
+  ['kobtn-elo','kobtn-reset'].forEach(id=>$(id).classList.add('hidden'));
+  ['ko-simslot','ko-viewslot'].forEach(id=>{const e=$(id); if(e) e.innerHTML='';});
+  if(!fgComplete()){ board.innerHTML='<p class="slots-note">Finish the group stage first.</p>'; return; }
+  const B=koBracket();
+  // view toggle
+  const vs=$('ko-viewslot');
+  if(vs){
+    vs.appendChild(buildMenu(D.view==='bracket'?'View: Bracket':'View: Rounds', [
+      {kind:'label',label:'Display'},
+      {label:'Rounds', sub:'full cards, editable scores', current:D.view==='rounds', onClick:()=>{ D.view='rounds'; renderKo(); }},
+      {label:'Bracket', sub:'whole draw at a glance', current:D.view==='bracket', onClick:()=>{ D.view='bracket'; renderKo(); }},
+    ], {triggerClass:'btn-ghost'}));
+  }
+  if(D.view==='bracket') renderKoBracket(board,B);
+  else koSections(board,B);
+  // champions banner (rounds view only \u2014 bracket has its own)
+  const champ=koChampion();
+  if(champ && D.view==='rounds'){
     const f=B[3].matches[0], fs=koSingle('f');
     const runnerUp=fs.winner===0?f.a:f.h;
     const ban=document.createElement('div'); ban.className='champ pop';
@@ -3798,13 +3988,14 @@ function renderKo(){
   if(!koComplete()){
     $('ko-simslot').appendChild(buildMenu('Simulate', [
       {label:'Simulate incomplete matches', sub:'keep any scores you typed', onClick:()=>{ koSimAll(true); renderKo(); }},
-      {label:'Simulate everything', sub:'re-roll the whole bracket', onClick:()=>{ S.ko=newKo(); koSimAll(false); renderKo(); }},
+      {label:'Simulate everything', sub:'re-roll the whole bracket', onClick:()=>{ const v=S.ko.view; S.ko=newKo(); S.ko.view=v; koSimAll(false); renderKo(); }},
     ], {triggerClass:'btn-gold'}));
   }
   $('kocmd-note').textContent = koComplete()
     ? `${champ} are champions of Europe.`
     : 'Level matches go to extra time, then penalties. Home advantage applies only to a host playing in its own country.';
 }
+
 function onKoInput(e){
   const el=e.target;
   if(!(el instanceof HTMLInputElement) || el.dataset.ko===undefined) return;
@@ -4097,6 +4288,12 @@ bindRange('ha','HA','v-ha',v=>v);
 bindRange('mu','MU','v-mu',v=>(''+v).length>4?v.toFixed(2):v);
 bindRange('dv','D','v-d',v=>v);
 bindRange('rho','RHO','v-rho',v=>v.toFixed(2));
+$('mvw').addEventListener('input',()=>{
+  P.MVW=parseFloat($('mvw').value);
+  $('v-mvw').textContent=P.MVW.toFixed(2);
+  applyRatingModel();
+  renderNL();
+});
 
 $('go-stage1').addEventListener('click',()=>{
   if(curMd()>=6){ S.viewMd='final'; renderFinal(); show('final'); }
@@ -4177,7 +4374,7 @@ $('fgbtn-reset').addEventListener('click',armed($('fgbtn-reset'),()=>{ stopAnim(
 $('fgbtn-knockout').addEventListener('click',()=>{ if(!S.ko) S.ko=newKo(); renderKo(); show('ko'); });
 $('nav-home10').addEventListener('click',()=>{ stopAnim(); show('title'); });
 $('kobtn-elo').addEventListener('click',()=>toggleEloPanel($('koboard'),'elo-ko',koElo(),'Elo ratings · knockout stage'));
-$('kobtn-reset').addEventListener('click',armed($('kobtn-reset'),()=>{ stopAnim(); S.ko=newKo(); renderKo(); }));
+$('kobtn-reset').addEventListener('click',armed($('kobtn-reset'),()=>{ stopAnim(); const v=S.ko?S.ko.view:'rounds'; S.ko=newKo(); S.ko.view=v; renderKo(); }));
 $('koboard').addEventListener('input',onKoInput);
 $('koboard').addEventListener('change',e=>{
   if(e.target instanceof HTMLInputElement && e.target.dataset.ko!==undefined) renderKo();
@@ -4300,6 +4497,7 @@ $('btn-elo').addEventListener('click',()=>toggleEloPanel($('board-final'),'elo-l
 $('fbtn-elo').addEventListener('click',()=>toggleEloPanel($('fboard'),'elo-finals',finalsEloAll().elo,'Elo ratings · through the finals & play-offs'));
 $('board').addEventListener('input',onScoreInput);
 
+applyRatingModel();
 renderNL();
 updateSettingsLock();
 show('title');
