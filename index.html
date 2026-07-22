@@ -174,6 +174,50 @@
   .qslot .qs-tags{display:flex; gap:5px; flex:none; white-space:nowrap}
   .qtag.host-h{color:var(--A); border-color:rgba(199,147,32,.5); font-weight:700}
   .pots-4{grid-template-columns:repeat(4,1fr)}
+  /* finals draw groups */
+  .fd-groups{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:18px}
+  .fd-group{border:1px solid var(--line); border-radius:var(--r); background:var(--surface); overflow:hidden}
+  .fd-ghead{font-family:"Barlow Condensed"; font-weight:700; text-transform:uppercase; letter-spacing:.1em;
+    font-size:13px; padding:8px 12px; background:var(--surface-2); border-bottom:1px solid var(--line)}
+  .fd-slot{display:flex; align-items:center; gap:9px; padding:8px 12px; font-size:13.5px; font-weight:600;
+    border-bottom:1px solid var(--line)}
+  .fd-slot:last-child{border-bottom:0}
+  .fd-slot .fd-pot-lbl{width:16px; height:16px; flex:none; display:flex; align-items:center; justify-content:center;
+    font-size:10px; font-weight:700; color:var(--muted-2); background:var(--surface-2); border-radius:var(--r)}
+  .fd-slot .fd-team{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .fd-slot .fd-team.ph{color:var(--muted-2); font-weight:400}
+  .fd-slot.filled{animation:vpIn .3s ease both}
+  @media (max-width:760px){ .fd-groups{grid-template-columns:1fr 1fr} }
+
+  /* finals group stage */
+  .fg-matches{padding:4px 0 8px}
+  .fg-match{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; padding:5px 12px; font-size:13px}
+  .fg-match .fg-team{font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .fg-match .fg-h{text-align:right} .fg-match .fg-a{text-align:left}
+  .fg-ha{display:inline-block; font-size:9px; font-weight:700; color:var(--A); border:1px solid rgba(199,147,32,.5);
+    border-radius:var(--r); padding:0 3px; margin-left:5px; vertical-align:middle}
+  .fg-score{display:flex; align-items:center; gap:5px}
+  .fg-score .sc{width:30px; height:28px; text-align:center; font-weight:700; font-size:14px; border:1px solid var(--line);
+    border-radius:var(--r); background:var(--bg); color:var(--text); font-family:inherit}
+  .fg-score .sc:disabled{background:var(--surface-2); color:var(--muted)}
+  .fg-score .sc-sep{color:var(--muted-2)}
+  .fg-standings{border-top:1px solid var(--line); padding:6px 12px 4px}
+  .fg-row{display:grid; grid-template-columns:18px 1fr 22px 30px 26px; align-items:center; gap:6px; font-size:12.5px; padding:3px 0}
+  .fg-row.fg-hdr{font-family:"Barlow Condensed"; text-transform:uppercase; letter-spacing:.08em; font-size:10px; color:var(--muted-2)}
+  .fg-row .fg-pos{color:var(--muted-2); font-variant-numeric:tabular-nums}
+  .fg-row .fg-tm{font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .fg-row .fg-pld,.fg-row .fg-gd{text-align:center; color:var(--muted); font-variant-numeric:tabular-nums}
+  .fg-row .fg-pts{text-align:center; font-weight:700; font-variant-numeric:tabular-nums}
+  .fg-row.fg-adv{background:var(--qf-soft)} .fg-row.fg-adv .fg-pos{color:var(--qf); font-weight:700}
+  .fg-row.fg-third .fg-pos{color:var(--po); font-weight:700}
+
+  /* knockout stage — uses the Nations League finals card styles */
+  .ko-round-head{display:flex; align-items:baseline; gap:12px; font-family:"Barlow Condensed"; font-weight:700;
+    text-transform:uppercase; letter-spacing:.12em; font-size:15px; color:var(--text);
+    padding-bottom:9px; border-bottom:1px solid var(--line); margin:30px 0 16px}
+  .ko-round-head:first-child{margin-top:6px}
+  .ko-round-sub{font-size:11.5px; letter-spacing:.1em; font-weight:600; color:var(--muted-2)}
+  .champ-team{font-family:"Barlow Condensed"; font-weight:700; font-size:32px; line-height:1.15; margin-top:2px}
   .tie-slot.pathslot{flex-wrap:wrap}
   @media (max-width:760px){ .pots-4{grid-template-columns:1fr 1fr} }
 
@@ -483,11 +527,15 @@
         <button class="btn btn-ghost jumpbtn" id="btn-jump">Jump to here</button>
       </div>
       <p class="jump-note hidden" id="jump-note">This will auto-simulate the entire Nations League — any remaining league matchdays, the promotion/relegation play-offs, and the finals — keeping every result you've already entered, then take you straight to the Euro 2028 qualifying draw. Click <b>Confirm — simulate &amp; jump</b> to proceed.</p>
-      <button class="stage-btn" disabled>
-        <span class="stage-num">3</span>
-        <span><span class="stage-name">Advance to Euro 2028</span><br><span class="stage-desc">The finals · United Kingdom &amp; Ireland</span></span>
-        <span class="stage-lock">Locked</span>
-      </button>
+      <div class="stage-row">
+        <button class="stage-btn" disabled>
+          <span class="stage-num">3</span>
+          <span><span class="stage-name">Advance to Euro 2028</span><br><span class="stage-desc">The finals · United Kingdom &amp; Ireland</span></span>
+          <span class="stage-lock">Locked</span>
+        </button>
+        <button class="btn btn-ghost jumpbtn" id="btn-jump3">Jump to here</button>
+      </div>
+      <p class="jump-note hidden" id="jump-note3">This will auto-simulate everything up to Stage 3 — the entire Nations League, the promotion/relegation play-offs, the finals, the full Euro 2028 qualifying group stage and the qualifying play-offs — keeping every result you've already entered, then take you to the qualified teams &amp; pots ready for the finals draw. Click <b>Confirm — simulate &amp; jump</b> to proceed.</p>
     </div>
     <div class="title-controls">
       <details class="controls">
@@ -638,14 +686,71 @@
     <header class="stage-head">
       <div class="bc"><a id="nav-home7">Road to Euro 2028</a> · Stage 2 · Qualified teams</div>
       <h2 class="stage-title">Euro 2028 <span style="color:var(--A)">Qualified</span></h2>
-      <p class="stage-lede">All 24 teams for the final tournament, sorted into the four pots for the finals draw. Pot 1 holds the qualified hosts; the remaining non-play-off teams follow by their European Qualifiers ranking; the play-off winners fill Pot 4.</p>
+      <p class="stage-lede">All 24 teams for the final tournament, sorted into the four pots for the finals draw. Pot 1 holds the qualified hosts and Northern Ireland; the rest follow by their European Qualifiers ranking; the play-off winners fill Pot 4.</p>
       <div class="cmdbar">
+        <span id="qual-drawslot"></span>
         <button class="btn btn-ghost" id="qualbtn-elo">View Elo ratings</button>
-        <span class="cmd-note" id="qualcmd-note">The finals group draw is the next stage.</span>
+        <span class="cmd-note" id="qualcmd-note">Six groups of four for the final tournament.</span>
       </div>
     </header>
     <main id="qualboard"></main>
-    <p class="foot">Seeding for the final tournament draw: Pot 1 = the host nations that qualified, then the highest-ranked qualified teams by European Qualifiers ranking; Pots 2 and 3 continue down that ranking; Pot 4 is completed by the play-off winners. Hosts are placed in Pot 1 regardless of ranking.</p>
+    <p class="foot">Seeding for the final tournament draw: Pot 1 = the qualified hosts and Northern Ireland, then the highest-ranked qualified teams by European Qualifiers ranking; Pots 2 and 3 continue down that ranking; Pot 4 is completed by the play-off winners. Hosts and Northern Ireland are always in Pot 1 regardless of ranking.</p>
+  </section>
+
+  <!-- ============ EURO 2028 FINALS DRAW ============ -->
+  <section id="view-fdraw" class="hidden">
+    <header class="stage-head">
+      <div class="bc"><a id="nav-home8">Road to Euro 2028</a> · Stage 3 · Finals draw</div>
+      <h2 class="stage-title">Euro 2028 <span style="color:var(--A)">Finals draw</span></h2>
+      <p class="stage-lede" id="fdraw-lede">Six groups of four. Each qualified host and Northern Ireland is pinned to a reserved group head: Wales A1, England B1, Northern Ireland D1, Republic of Ireland E1, Scotland F1. The sixth group head (C1) is drawn from Pot 1. One team from each pot per group; prohibited pairs kept apart.</p>
+      <div class="cmdbar">
+        <span id="fdraw-drawslot"></span>
+        <span id="fdraw-moreslot"></span>
+        <button class="btn btn-ghost hidden" id="fdrawbtn-elo">View Elo ratings</button>
+        <button class="btn btn-red hidden" id="fdrawbtn-reset">Restart draw</button>
+        <span class="cmd-note" id="fdrawcmd-note"></span>
+      </div>
+    </header>
+    <main id="fdrawboard"></main>
+    <p class="foot">Host pinning follows UEFA's reserved group-head allocation. Northern Ireland is not a host and earns no free berth, but retains a Pot 1 seed and its reserved D1 slot as a legacy of co-hosting, should it qualify.</p>
+  </section>
+
+  <!-- ============ EURO 2028 FINALS — GROUP STAGE ============ -->
+  <section id="view-fg" class="hidden">
+    <header class="stage-head">
+      <div class="bc"><a id="nav-home9">Road to Euro 2028</a> · Stage 3 · Group stage</div>
+      <h2 class="stage-title">Euro 2028 <span style="color:var(--A)">Group stage</span></h2>
+      <p class="stage-lede">Six groups of four, three matchdays (9–21 June 2028). Top two of each group and the four best third-placed teams reach the round of 16. Each group head plays all three games at its home city; hosts get home advantage only in their own stadium.</p>
+      <div class="cmdbar">
+        <span id="fg-mdslot"></span>
+        <span id="fg-simslot"></span>
+        <button class="btn btn-green" id="fgbtn-adv" disabled>Advance</button>
+        <button class="btn btn-green hidden" id="fgbtn-knockout">Continue to knockouts</button>
+        <span id="fg-moreslot"></span>
+        <button class="btn btn-ghost hidden" id="fgbtn-elo">View Elo ratings</button>
+        <button class="btn btn-red hidden" id="fgbtn-reset">Restart group stage</button>
+        <span class="cmd-note" id="fgcmd-note"></span>
+      </div>
+    </header>
+    <main id="fgboard"></main>
+    <p class="foot">Fixtures follow the real UEFA EURO 2028 schedule: MD1 pairs 1v2 and 3v4, MD2 pairs 1v3 and 2v4, MD3 pairs 4v1 and 2v3. The group head (position 1) hosts all three of its matches.</p>
+  </section>
+
+  <!-- ============ EURO 2028 FINALS — KNOCKOUT STAGE ============ -->
+  <section id="view-ko" class="hidden">
+    <header class="stage-head">
+      <div class="bc"><a id="nav-home10">Road to Euro 2028</a> · Stage 3 · Knockouts</div>
+      <h2 class="stage-title">Euro 2028 <span style="color:var(--A)">Knockouts</span></h2>
+      <p class="stage-lede">Round of 16 through to the final at Wembley on 9 July 2028. Third-placed teams are allocated by UEFA's combination table. Level matches go to extra time and then penalties. There is no third-place play-off.</p>
+      <div class="cmdbar">
+        <span id="ko-simslot"></span>
+        <button class="btn btn-ghost hidden" id="kobtn-elo">View Elo ratings</button>
+        <button class="btn btn-red hidden" id="kobtn-reset">Restart knockouts</button>
+        <span class="cmd-note" id="kocmd-note"></span>
+      </div>
+    </header>
+    <main id="koboard"></main>
+    <p class="foot">Home advantage is granted only where a host nation plays at a venue in its own country — England at Wembley, Tottenham, Manchester, Liverpool, Birmingham and Newcastle; Wales at Cardiff; Scotland at Glasgow; the Republic of Ireland in Dublin. Northern Ireland is not a host and never receives it. Because both semi-finals and the final are at Wembley, only England can hold home advantage beyond the quarter-finals.</p>
   </section>
 
   <!-- ============ FINAL ============ -->
@@ -791,7 +896,7 @@ function eloDelta(hE,aE,hg,ag){
 // S.confirmed[md] = { "code|i": [hg,ag] } for each locked matchday.
 // Everything else (elo, tables, h2h) is replayed from ELO0, so restoring
 // any matchday is exact — including ratings.
-let S = { confirmed:[], entry:{}, viewMd:0, finals:null, po:null, q:null, ep:null };
+let S = { confirmed:[], entry:{}, viewMd:0, finals:null, po:null, q:null, ep:null, fdraw:null, fg:null, ko:null };
 const key=(code,i)=>code+'|'+i;
 
 function freshStats(){
@@ -884,7 +989,7 @@ function rowClass(L,pos,team,cSplit){
 
 // ================= UI =================
 const $=id=>document.getElementById(id);
-const views={title:$('view-title'), nl:$('view-nl'), final:$('view-final'), finals:$('view-finals'), po:$('view-po'), q:$('view-q'), ep:$('view-ep'), qual:$('view-qual')};
+const views={title:$('view-title'), nl:$('view-nl'), final:$('view-final'), finals:$('view-finals'), po:$('view-po'), q:$('view-q'), ep:$('view-ep'), qual:$('view-qual'), fdraw:$('view-fdraw'), fg:$('view-fg'), ko:$('view-ko')};
 // Pipeline for the stage navigator. reach() = can we jump there now?
 const NAV_STAGES=[
   {key:'nl', label:'Nations League', reach:()=>true, go:()=>{ S.viewMd=Math.min(curMd(),5); renderNL(); show('nl'); }},
@@ -893,9 +998,12 @@ const NAV_STAGES=[
   {key:'q', label:'Euro Qualifying', reach:()=>nlComplete(), go:()=>{ if(!S.q) S.q={res:null,drawn:false,fx:null,qc:[],qe:{},qview:0}; renderQ(); show('q'); }},
   {key:'ep', label:'Euro Play-offs', reach:()=>nlComplete()&&S.q&&S.q.qc&&S.q.qc.length>=10, go:()=>{ if(!S.ep) S.ep=newEp(); renderEp(); show('ep'); }},
   {key:'qual', label:'Qualified', reach:()=>S.ep&&S.ep.drawn&&epComplete(), go:()=>{ renderQual(); show('qual'); }},
+  {key:'fdraw', label:'Finals Draw', reach:()=>S.ep&&S.ep.drawn&&epComplete(), go:()=>{ if(!S.fdraw) S.fdraw=newFdraw(); renderFdraw(); show('fdraw'); }},
+  {key:'fg', label:'Group Stage', reach:()=>S.fdraw&&S.fdraw.drawn, go:()=>{ if(!S.fg) S.fg=newFg(); renderFg(); show('fg'); }},
+  {key:'ko', label:'Knockouts', reach:()=>S.fg&&fgComplete(), go:()=>{ if(!S.ko) S.ko=newKo(); renderKo(); show('ko'); }},
 ];
 // which nav stage does a given view belong to
-const VIEW_TO_NAV={nl:'nl', final:'nl', po:'po', finals:'finals', q:'q', ep:'ep', qual:'qual'};
+const VIEW_TO_NAV={nl:'nl', final:'nl', po:'po', finals:'finals', q:'q', ep:'ep', qual:'qual', fdraw:'fdraw', fg:'fg', ko:'ko'};
 function renderStageNav(currentView){
   const nav=$('stagenav');
   if(currentView==='title'||!nav){ if(nav) nav.classList.remove('show'); return; }
@@ -979,7 +1087,7 @@ function refreshButtons(){
       onClick:()=>{
         if(!S._armRestart){ S._armRestart=true; moreMenu.__rerender(); return; }
         S._armRestart=false;
-        S={confirmed:[], entry:{}, viewMd:0, finals:null, po:null, q:null, ep:null};
+        S={confirmed:[], entry:{}, viewMd:0, finals:null, po:null, q:null, ep:null, fdraw:null, fg:null, ko:null};
         renderNL();
     }},
   ], {triggerClass:'btn-ghost', alignRight:true});
@@ -2052,6 +2160,64 @@ function onPoInput(e){
 
 // ================= EURO 2028 QUALIFYING DRAW =================
 const HOSTS=['England','Scotland','Wales','Rep. Ireland'];
+// Teams guaranteed a Pot 1 seed AND a fixed group head if they qualify.
+// The four hosts plus Northern Ireland (not a host — no free berth — but retains a Pot 1 seed
+// and reserved group slot as a legacy from co-hosting).
+const POT1_FIXED=['England','Scotland','Wales','Rep. Ireland','Northern Ireland'];
+// Reserved group-head positions (group index 0=A .. 5=F). C (index 2) is left open for a drawn Pot 1 team.
+const HOST_SLOT={'Wales':0,'England':1,'Northern Ireland':3,'Rep. Ireland':4,'Scotland':5};
+// ---- Euro 2028 finals group stage schedule ----
+// Canonical matchday pairings (same for every group). Each entry: [homeSlot, awaySlot] (0-based).
+// MD1: 1v2, 3v4 · MD2: 1v3, 2v4 · MD3: 4v1, 2v3  (from the real UEFA venue schedule)
+const FG_MD=[
+  [[0,1],[2,3]],
+  [[0,2],[1,3]],
+  [[3,0],[1,2]],
+];
+const FG_DATES=['9–12 June','13–16 June','18–21 June'];
+// Group-head home cities (the group head plays all three games here). Slot-1 host home venue.
+const FG_HEAD_CITY=['Cardiff','London','London','London/Birmingham','Dublin','Glasgow'];
+// Home city each host plays in (for the home-advantage venue check). A host only gets HA in their own city.
+const HOST_CITY={'Wales':'Cardiff','England':'London','Rep. Ireland':'Dublin','Scotland':'Glasgow','Northern Ireland':'London'};
+// ---- Euro 2028 knockout stage ----
+// Venue -> home nation. A host gets home advantage only at a venue in its own country.
+// Northern Ireland is not a host, so it never receives home advantage.
+const VENUE_NATION={
+  Cardiff:'Wales', Dublin:'Rep. Ireland', Glasgow:'Scotland',
+  Wembley:'England', Tottenham:'England', Manchester:'England',
+  Liverpool:'England', Birmingham:'England', Newcastle:'England'
+};
+// Which third-placed team each group winner meets, keyed by the four groups the thirds come from.
+// Values are the group letters facing [1B, 1C, 1E, 1F] (UEFA regulation table, 15 combinations).
+const THIRD_COMBOS={
+  ABCD:['A','D','B','C'], ABCE:['A','E','B','C'], ABCF:['A','F','B','C'],
+  ABDE:['D','E','A','B'], ABDF:['D','F','A','B'], ABEF:['E','F','B','A'],
+  ACDE:['E','D','C','A'], ACDF:['F','D','C','A'], ACEF:['E','F','C','A'],
+  ADEF:['E','F','D','A'], BCDE:['E','D','B','C'], BCDF:['F','D','C','B'],
+  BCEF:['F','E','C','B'], BDEF:['F','E','D','B'], CDEF:['F','E','D','C']
+};
+// Round of 16: ref types — w=group winner, r=runner-up, t=third-placed assigned to that winner.
+const KO_R16=[
+  {id:'r0', h:{k:'w',g:1}, a:{k:'t',f:'B'}, venue:'Newcastle',  date:'25 June'},
+  {id:'r1', h:{k:'w',g:0}, a:{k:'r',g:2},   venue:'Cardiff',    date:'24 June'},
+  {id:'r2', h:{k:'w',g:5}, a:{k:'t',f:'F'}, venue:'Glasgow',    date:'26 June'},
+  {id:'r3', h:{k:'r',g:3}, a:{k:'r',g:4},   venue:'Tottenham',  date:'26 June'},
+  {id:'r4', h:{k:'w',g:4}, a:{k:'t',f:'E'}, venue:'Dublin',     date:'27 June'},
+  {id:'r5', h:{k:'w',g:3}, a:{k:'r',g:5},   venue:'Birmingham', date:'27 June'},
+  {id:'r6', h:{k:'w',g:2}, a:{k:'t',f:'C'}, venue:'Manchester', date:'25 June'},
+  {id:'r7', h:{k:'r',g:0}, a:{k:'r',g:1},   venue:'Liverpool',  date:'24 June'}
+];
+const KO_QF=[
+  {id:'q0', from:['r0','r1'], venue:'Wembley', date:'30 June'},
+  {id:'q1', from:['r2','r3'], venue:'Dublin',  date:'30 June'},
+  {id:'q2', from:['r4','r5'], venue:'Glasgow', date:'1 July'},
+  {id:'q3', from:['r6','r7'], venue:'Cardiff', date:'1 July'}
+];
+const KO_SF=[
+  {id:'s0', from:['q0','q1'], venue:'Wembley', date:'4 July'},
+  {id:'s1', from:['q2','q3'], venue:'Wembley', date:'5 July'}
+];
+const KO_FINAL={id:'f', from:['s0','s1'], venue:'Wembley', date:'9 July'};
 const PROHIB=[['Serbia','Kosovo'],['Bosnia & Herz.','Kosovo'],['Spain','Gibraltar'],['Armenia','Azerbaijan'],['Ukraine','Belarus']];
 const WINTER=new Set(['Belarus','Estonia','Faroe Islands','Finland','Iceland','Latvia','Lithuania','Norway']);
 const KAZ_FAR=new Set(['Andorra','England','France','Gibraltar','Iceland','Malta','Portugal','Rep. Ireland','Scotland','Wales','Northern Ireland','Spain','Faroe Islands']);
@@ -2530,6 +2696,7 @@ function renderQ(){
   const pots=qualPots(), semis=nlSemifinalists(), march=marchNlTeams(), rankOf=QNLRANK;
   const tag=t=>''; // draw-phase badges removed for clarity; data still lives in state
   if(!Q.drawn){
+    if(Q._vp) board.appendChild(Q._vp.el);
     const pz=document.createElement('div'); pz.className='draw-zone pop';
     pz.innerHTML=`<div class="qpots">${pots.map((pt,p)=>`<div class="pot potrow"><h4>Pot ${p+1}${p===4?' · groups G–L only':''}</h4>
       <div class="qlist" id="qpot-${p}">${pt.map(t=>`<div class="qteam ball" data-t="${t}"><span class="qrk">${rankOf[t]}</span>${FLAG[t]} ${CODE[t]}${tag(t)}</div>`).join('')}</div></div>`).join('')}</div>`;
@@ -2546,8 +2713,17 @@ function renderQ(){
       gz.appendChild(card);
     }
     board.appendChild(gz);
-    $('qbtn-main').classList.remove('hidden'); $('qbtn-main').textContent='Start qualifying draw';
-    $('qcmd-note').textContent='Pots 1–4 fill every group; pot 5 completes groups G–L.';
+    $('q-mdslot').innerHTML='';
+    if(!Q._vp){
+      $('q-mdslot').appendChild(buildMenu('Make the draw', [
+        {label:'Animated draw', sub:'watch each team drawn', onClick:()=>animateQDraw()},
+        {label:'Quick draw', sub:'reveal all groups instantly', onClick:()=>{ const r=computeQualDraw(); if(r){ S.q.res=r; S.q.drawn=true; renderQ(); } else $('qcmd-note').textContent='Draw failed — try again.'; }},
+        {kind:'sep'},
+        {label:'Quick draw & results', sub:'draw, then simulate all matchdays', onClick:()=>{ const r=computeQualDraw(); if(!r){ $('qcmd-note').textContent='Draw failed — try again.'; return; } S.q.res=r; S.q.drawn=true; buildQFixtures(); simRemainingQ(); }},
+      ], {triggerClass:'btn-gold'}));
+    }
+    $('qbtn-reset').classList.remove('hidden');
+    $('qcmd-note').textContent=Q._vp?'Drawing…':'Pots 1–4 fill every group; pot 5 completes groups G–L.';
     return;
   }
   if(!Q.fx){
@@ -2609,20 +2785,21 @@ function animateQDraw(){
   const res=computeQualDraw();
   if(!res){ $('qcmd-note').textContent='Draw failed — please try again.'; return; }
   Q.res=res;
-  $('qbtn-main').classList.add('hidden');
+  Q._vp=makeVideprinter('Euro 2028 qualifying draw');
+  renderQ(); // re-render to mount the videprinter above the pots
+  $('q-mdslot').innerHTML='';
   $('qcmd-note').textContent='Drawing…';
   const fill={}; // per-group next slot index
   let k=0;
   fAnim=setInterval(()=>{
-    if(k>=res.order.length){ stopAnim(); Q.drawn=true; renderQ(); return; }
-    const {t,g}=res.order[k++];
-    const pot=document.querySelector(`#qpot-${res.order[k-1].p} .qteam[data-t="${CSS.escape(t)}"]`)||document.querySelector(`.qteam[data-t="${CSS.escape(t)}"]`);
+    if(k>=res.order.length){ stopAnim(); Q.drawn=true; Q._vp=null; renderQ(); return; }
+    const {t,g,p}=res.order[k++];
+    const pot=document.querySelector(`#qpot-${p} .qteam[data-t="${CSS.escape(t)}"]`)||document.querySelector(`.qteam[data-t="${CSS.escape(t)}"]`);
     if(pot) pot.classList.add('gone');
     const idx=fill[g]||0; fill[g]=idx+1;
     const slot=$(`qslot-${g}-${idx}`);
-    if(slot){
-      slot.innerHTML=`<span class="qrk">P${idx+1}</span><span class="drawn">${FLAG[t]} ${CODE[t]}</span>`;
-    }
+    if(slot){ slot.innerHTML=`<span class="qrk">P${idx+1}</span><span class="drawn">${FLAG[t]} ${CODE[t]}</span>`; }
+    if(Q._vp) Q._vp.push(FLAG[t], t, `Group ${GLETTERS[g]}`);
   },240);
 }
 // Jump to here: auto-sim everything incomplete in the Nations League, then open the draw
@@ -2641,6 +2818,32 @@ function jumpToQualifying(){
   updateSettingsLock();
   if(!S.q) S.q={res:null,drawn:false,fx:null,qc:[],qe:{},qview:0};
   renderQ(); show('q');
+}
+// Jump to Stage 3: auto-sim the Nations League, promo/releg, finals, the qualifying draw +
+// all group matchdays, then the Euro play-off draw + results — landing on the qualified/pots page.
+function jumpToStage3(){
+  stopAnim();
+  while(curMd()<6){
+    fillCurrentMd(computeState(curMd()), true);
+    S.confirmed.push({...S.entry}); S.entry={};
+  }
+  S.viewMd=5;
+  if(!S.po) S.po=newPo();
+  if(!S.po.drawn) S.po.drawn=drawPo();
+  simulatePo();
+  if(!S.finals) S.finals=newFinals();
+  completeFinalsSim();
+  updateSettingsLock();
+  if(!S.q) S.q={res:null,drawn:false,fx:null,qc:[],qe:{},qview:0};
+  if(!S.q.drawn){ const r=computeQualDraw(); if(r){ S.q.res=r; S.q.drawn=true; } }
+  if(!S.q.fx) buildQFixtures();
+  while(qmdOf()<10){ fillQMd(qmdOf(),true); S.q.qc.push({...S.q.qe}); S.q.qe={}; }
+  S.q.qview='final';
+  QNLRANK={}; ranked54().forEach((t,i)=>QNLRANK[t]=i+1);
+  if(!S.ep) S.ep=newEp();
+  if(!S.ep.drawn){ Object.assign(S.ep, drawEp(epField()), {drawn:true}); }
+  epSimAll(false);
+  renderQual(); show('qual');
 }
 
 // ================= EURO 2028 PLAY-OFFS =================
@@ -2897,24 +3100,84 @@ function finalsQualified(){
 }
 function finalsDrawPots(){
   const q=finalsQualified();
-  // Every qualified host goes to Pot 1 — including a host that won its play-off.
   const allQualified=new Set([...q.eqOrder, ...q.berthHosts, ...q.poWinners]);
-  const hostsQ=[...allQualified].filter(t=>HOSTS.includes(t));
-  const pot1=[...hostsQ];
-  // Non-host teams in European-Qualifiers order (group winners then top-8 runners-up), excluding play-off winners
-  const pool=q.eqOrder.filter(t=>!HOSTS.includes(t) && !q.poWinners.includes(t));
+  // Pot 1 privileged = hosts + NIR that qualified by any route (group, runner-up, host berth, or play-off).
+  const privileged=[...allQualified].filter(t=>POT1_FIXED.includes(t));
+  const pot1=[...privileged];
+  // Non-privileged teams in European-Qualifiers order (group winners then top-8 runners-up), excluding play-off winners
+  const pool=q.eqOrder.filter(t=>!POT1_FIXED.includes(t) && !q.poWinners.includes(t));
   let pi=0;
   while(pot1.length<6 && pi<pool.length){ pot1.push(pool[pi++]); }
   const remaining=pool.slice(pi);
   const pot2=remaining.slice(0,6);
   const pot3=remaining.slice(6,12);
-  // Pot 4: play-off winners that aren't hosts (host play-off winners are already in Pot 1)
-  const poNonHost=q.poWinners.filter(t=>!HOSTS.includes(t));
+  // Pot 4: play-off winners that aren't Pot 1 privileged (privileged play-off winners are already in Pot 1)
+  const poNonPriv=q.poWinners.filter(t=>!POT1_FIXED.includes(t));
   const potted=new Set([...pot1,...pot2,...pot3]);
-  const leftover=[...q.eqOrder,...q.berthHosts].filter(t=>!potted.has(t)&&!poNonHost.includes(t)&&!HOSTS.includes(t));
-  const pot4=[...leftover,...poNonHost];
+  const leftover=[...q.eqOrder,...q.berthHosts].filter(t=>!potted.has(t)&&!poNonPriv.includes(t)&&!POT1_FIXED.includes(t));
+  const pot4=[...leftover,...poNonPriv];
   return {pot1,pot2,pot3,pot4,q};
 }
+
+// ---- Euro 2028 finals draw ----
+// 6 groups (0=A..5=F), 4 teams each, one per pot. Hosts+NIR pinned to reserved group heads.
+const FGROUPS='ABCDEF';
+function newFdraw(){ return {drawn:false, groups:null, potsSnap:null }; }
+function fdrawProhibOk(team, groupTeams){
+  for(const [a,b] of PROHIB){ if((team===a&&groupTeams.includes(b))||(team===b&&groupTeams.includes(a))) return false; }
+  return true;
+}
+// Produce the drawn groups. Returns {groups:[[t,t,t,t]x6], pots:[p1,p2,p3,p4], pinned:{team:groupIdx}}
+function computeFinalsDraw(){
+  const {pot1,pot2,pot3,pot4}=finalsDrawPots();
+  const pots=[pot1.slice(),pot2.slice(),pot3.slice(),pot4.slice()];
+  // Pinned Pot 1 teams (hosts + NIR that qualified) -> their reserved group head.
+  const pinned={};
+  pot1.forEach(t=>{ if(HOST_SLOT[t]!==undefined) pinned[t]=HOST_SLOT[t]; });
+  const groups=[[],[],[],[],[],[]];
+  // Seat pinned teams first
+  const pot1Rest=[];
+  pot1.forEach(t=>{ if(pinned[t]!==undefined) groups[pinned[t]].push(t); else pot1Rest.push(t); });
+  // Remaining Pot 1 teams fill the open group heads (any group without a pinned team), respecting prohibited pairs
+  const openHeads=[0,1,2,3,4,5].filter(g=>groups[g].length===0);
+  // backtracking assignment for each pot
+  const solve=(pool, slotGroups)=>{
+    // slotGroups: array of group indices needing one team from this pool
+    const order=[...pool];
+    const res=new Array(slotGroups.length).fill(null);
+    const used=new Array(order.length).fill(false);
+    const bt=(si)=>{
+      if(si===slotGroups.length) return true;
+      const g=slotGroups[si];
+      for(let i=0;i<order.length;i++){
+        if(used[i]) continue;
+        const t=order[i];
+        if(!fdrawProhibOk(t, groups[g])) continue;
+        used[i]=true; groups[g].push(t); res[si]=t;
+        if(bt(si+1)) return true;
+        used[i]=false; groups[g].pop(); res[si]=null;
+      }
+      return false;
+    };
+    // shuffle pool for randomness
+    for(let i=order.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
+    return bt(0)?res:null;
+  };
+  // Pot 1 rest -> open heads
+  let ok = solve(pot1Rest, openHeads)!==null;
+  // Pots 2,3,4 -> all six groups (each needs exactly one)
+  for(const p of [1,2,3]){
+    if(!ok) break;
+    if(solve(pots[p], [0,1,2,3,4,5])===null) ok=false;
+  }
+  if(!ok) return null;
+  return {groups, pots, pinned};
+}
+function drawFinals(maxTries){
+  for(let i=0;i<(maxTries||300);i++){ const r=computeFinalsDraw(); if(r) return r; }
+  return computeFinalsDraw(); // last attempt (may be null in pathological cases)
+}
+
 function renderQual(){
   stopAnim();
   const board=$('qualboard'); board.innerHTML='';
@@ -2938,9 +3201,626 @@ function renderQual(){
   grid.innerHTML=potCard('Pot 1',pot1,'A')+potCard('Pot 2',pot2,'B')+potCard('Pot 3',pot3,'C')+potCard('Pot 4',pot4,'D');
   board.appendChild(grid);
   const note=document.createElement('p'); note.className='slots-note'; note.style.background='rgba(46,158,88,.08)'; note.style.borderColor='rgba(46,158,88,.25)';
-  note.innerHTML=`<b>${total} teams</b> qualified for UEFA Euro 2028. The finals group draw — sorting these four pots into six groups of four — is the next stage.`;
+  note.innerHTML=`<b>${total} teams</b> qualified for UEFA Euro 2028. Proceed to the group draw to sort these four pots into six groups of four.`;
   board.appendChild(note);
+  // draw button
+  const slot=$('qual-drawslot'); if(slot){ slot.innerHTML='';
+    const b=document.createElement('button'); b.className='btn btn-green'; b.textContent='Proceed to finals draw';
+    b.addEventListener('click',()=>{ if(!S.fdraw) S.fdraw=newFdraw(); renderFdraw(); show('fdraw'); });
+    slot.appendChild(b);
+  }
 }
+
+// ---- Euro 2028 finals draw render ----
+function fdrawShell(pots){
+  const wrap=document.createElement('div'); wrap.className='draw-zone';
+  // pots row
+  const potNames=['Pot 1','Pot 2','Pot 3','Pot 4'];
+  const potsHtml=`<div class="pots pots-4">${pots.map((p,pi)=>`<div class="pot"><h4>${potNames[pi]}</h4><div class="balls" id="fd-pot-${pi}">${p.map(t=>`<span class="ball" data-t="${t}">${FLAG[t]} ${CODE[t]||t}</span>`).join('')}</div></div>`).join('')}</div>`;
+  // six group cards with 4 empty slots each
+  const groupsHtml=`<div class="fd-groups">${[0,1,2,3,4,5].map(g=>`<div class="fd-group"><div class="fd-ghead">Group ${FGROUPS[g]}</div>${[0,1,2,3].map(pos=>`<div class="fd-slot" id="fd-g${g}-p${pos}"><span class="fd-pot-lbl">${pos+1}</span><span class="fd-team ph">—</span></div>`).join('')}</div>`).join('')}</div>`;
+  wrap.innerHTML=potsHtml+groupsHtml;
+  return wrap;
+}
+function fillFdrawSlot(g,pos,team,fromPotId){
+  const slot=$(`fd-g${g}-p${pos}`);
+  if(slot){ const tm=slot.querySelector('.fd-team'); if(tm){ tm.classList.remove('ph'); tm.innerHTML=`${FLAG[team]} ${CODE[team]||team}`; } slot.classList.add('filled'); }
+  if(fromPotId){ const pot=$(fromPotId); if(pot){ const ball=[...pot.querySelectorAll('.ball')].find(b=>b.dataset.t===team); if(ball) ball.classList.add('gone'); } }
+}
+function renderFdraw(){
+  stopAnim();
+  const D=S.fdraw || (S.fdraw=newFdraw());
+  const board=$('fdrawboard'); board.innerHTML='';
+  ['fdrawbtn-elo','fdrawbtn-reset'].forEach(id=>$(id).classList.add('hidden'));
+  ['fdraw-drawslot','fdraw-moreslot'].forEach(id=>{const e=$(id); if(e) e.innerHTML='';});
+  if(!D.drawn){
+    if(D._vp) board.appendChild(D._vp.el);
+    const {pot1,pot2,pot3,pot4}=finalsDrawPots();
+    board.appendChild(fdrawShell([pot1,pot2,pot3,pot4]));
+    const menu=buildMenu('Make the draw', [
+      {label:'Animated draw', sub:'watch each group filled', onClick:()=>animateFdraw()},
+      {label:'Quick draw', sub:'reveal all groups instantly', onClick:()=>{ const r=drawFinals(); if(r){ D.groups=r.groups; D.pinned=r.pinned; D.drawn=true; renderFdraw(); } }},
+    ], {triggerClass:'btn-gold'});
+    $('fdraw-drawslot').appendChild(menu);
+    $('fdrawbtn-reset').classList.remove('hidden');
+    $('fdrawcmd-note').textContent='Hosts and Northern Ireland are pre-seated at their reserved group heads.';
+    return;
+  }
+  // drawn — show final groups
+  const grid=document.createElement('div'); grid.className='fd-groups final';
+  grid.innerHTML=D.groups.map((teams,g)=>{
+    const rows=teams.map((t,pos)=>{
+      const host=POT1_FIXED.includes(t)&&D.pinned&&D.pinned[t]===g;
+      return `<div class="fd-slot filled"><span class="fd-pot-lbl">${pos+1}</span><span class="fd-team">${FLAG[t]} ${t}</span>${host?'<span class="qtag host-h">H</span>':''}</div>`;
+    }).join('');
+    return `<div class="fd-group pop"><div class="fd-ghead">Group ${FGROUPS[g]}</div>${rows}</div>`;
+  }).join('');
+  board.appendChild(grid);
+  const note=document.createElement('p'); note.className='slots-note';
+  note.innerHTML='<b>The draw is complete.</b> Six groups of four for UEFA Euro 2028.';
+  board.appendChild(note);
+  $('fdraw-drawslot').innerHTML='';
+  const cont=document.createElement('button'); cont.className='btn btn-green'; cont.textContent='Continue to group stage';
+  cont.addEventListener('click',()=>{ if(!S.fg) S.fg=newFg(); renderFg(); show('fg'); });
+  $('fdraw-drawslot').appendChild(cont);
+  $('fdrawbtn-elo').classList.remove('hidden');
+  $('fdrawbtn-reset').classList.remove('hidden');
+  $('fdrawcmd-note').textContent='Groups set — on to the group stage.';
+}
+function animateFdraw(){
+  const D=S.fdraw;
+  const r=drawFinals();
+  if(!r){ $('fdrawcmd-note').textContent='Draw failed — try again.'; return; }
+  D.groups=r.groups; D.pinned=r.pinned; D.drawn=false;
+  D._vp=makeVideprinter('Euro 2028 finals draw');
+  const board=$('fdrawboard'); board.innerHTML='';
+  board.appendChild(D._vp.el);
+  board.appendChild(fdrawShell(r.pots));
+  ['fdraw-drawslot','fdraw-moreslot'].forEach(id=>{const e=$(id); if(e) e.innerHTML='';});
+  $('fdrawbtn-reset').classList.remove('hidden');
+  $('fdrawcmd-note').textContent='Drawing…';
+  // Which pot did each team come from?
+  const potOf={}; r.pots.forEach((p,pi)=>p.forEach(t=>potOf[t]=pi));
+  // Reveal order: pinned heads first, then pot by pot across groups
+  const steps=[];
+  // pinned teams (group heads)
+  for(let g=0;g<6;g++){ const head=r.groups[g][0]; if(POT1_FIXED.includes(head)&&r.pinned&&r.pinned[head]===g){ steps.push({g,team:head}); } }
+  // then remaining, pot 0..3, in group order, skipping already-pushed
+  const pushed=new Set(steps.map(s=>s.team));
+  for(let p=0;p<4;p++){ for(let g=0;g<6;g++){ const t=r.groups[g].find(x=>potOf[x]===p&&!pushed.has(x)); if(t){ pushed.add(t); steps.push({g,team:t}); } } }
+  let k=0;
+  fAnim=setInterval(()=>{
+    if(k>=steps.length){ stopAnim(); D.drawn=true; D._vp=null; renderFdraw(); return; }
+    const st=steps[k++];
+    const pos=r.groups[st.g].indexOf(st.team);
+    fillFdrawSlot(st.g, pos, st.team, `fd-pot-${potOf[st.team]}`);
+    if(D._vp) D._vp.push(FLAG[st.team], st.team, `Group ${FGROUPS[st.g]}`);
+  },360);
+}
+
+// ================= EURO 2028 FINALS — GROUP STAGE =================
+// Replay architecture: store confirmed matchday results, recompute standings + Elo from baseline.
+function newFg(){ return {confirmed:[], entry:{}, view:0}; } // confirmed[md] = {matchKey:[hg,ag]}
+// The 6 drawn groups (arrays of 4 team names) come from S.fdraw.groups.
+function fgGroups(){ return (S.fdraw&&S.fdraw.groups)?S.fdraw.groups:[]; }
+// Fixture list for a group at a matchday: [{h,a,homeSlot,awaySlot,city}]
+function fgFixtures(g, md){
+  const grp=fgGroups()[g]; if(!grp) return [];
+  return FG_MD[md].map(([hs,as_])=>({h:grp[hs],a:grp[as_],homeSlot:hs,awaySlot:as_,city:FG_HEAD_CITY[g]}));
+}
+function fgKey(g,md,i){ return `${g}-${md}-${i}`; }
+// Home advantage: only the group head (slot 0) plays "at home", and only gets HA if it's a host in its own city.
+function fgHomeAdv(g, fixture){
+  // Group head is slot 0. The head plays all 3 games at FG_HEAD_CITY[g]. HA applies only if the head is the home team AND a host in that city.
+  if(fixture.homeSlot!==0) return 0; // only the group head is ever the designated host venue side in this schedule
+  const head=fgGroups()[g][0];
+  if(HOSTS.includes(head) && HOST_CITY[head]===FG_HEAD_CITY[g].split('/')[0]) return P.HA;
+  // Northern Ireland is not a host — no home advantage even though pinned to a group head.
+  return 0;
+}
+// Baseline Elo for the finals = post-play-off Elo (end of everything so far).
+function fgBaselineElo(){ return epElo().elo; }
+// Finals group model: HA passed explicitly (0 unless host in own city). No implicit P.HA.
+function fgLambdas(hE, aE, ha){
+  const sup=((hE+ha)-aE)/P.D;
+  return [Math.max((P.MU+sup)/2,P.FLOOR), Math.max((P.MU-sup)/2,P.FLOOR)];
+}
+function fgApplyElo(elo, h, a, hg, ag, ha){
+  const dr=(elo[h]+ha)-elo[a];
+  const we=1/(1+Math.pow(10,-dr/400));
+  const w=hg>ag?1:(hg===ag?0.5:0);
+  const N=Math.abs(hg-ag), G=N<=1?1:(N===2?1.5:(11+N)/8);
+  const d=P.K*G*(w-we);
+  elo[h]+=d; elo[a]-=d;
+}
+// Recompute Elo up to (not including) matchday `upto` by replaying confirmed results.
+function fgState(upto){
+  const elo={...fgBaselineElo()};
+  for(let md=0; md<upto; md++){
+    const res=S.fg.confirmed[md]; if(!res) continue;
+    for(let g=0; g<6; g++){
+      fgFixtures(g,md).forEach((fx,i)=>{
+        const sc=res[fgKey(g,md,i)]; if(!sc) return;
+        const [hg,ag]=sc;
+        const ha=fgHomeAdv(g,fx);
+        fgApplyElo(elo, fx.h, fx.a, hg, ag, ha);
+      });
+    }
+  }
+  return elo;
+}
+// Standings for a group using confirmed results up to current matchday.
+function fgTable(g){
+  const grp=fgGroups()[g]; const rec={};
+  grp.forEach(t=>rec[t]={t,P:0,W:0,D:0,L:0,GF:0,GA:0,Pts:0});
+  const cur=fgCurMd();
+  for(let md=0; md<cur; md++){
+    const res=S.fg.confirmed[md]; if(!res) continue;
+    fgFixtures(g,md).forEach((fx,i)=>{
+      const sc=res[fgKey(g,md,i)]; if(!sc) return;
+      const [hg,ag]=sc; const H=rec[fx.h], A=rec[fx.a];
+      H.P++;A.P++;H.GF+=hg;H.GA+=ag;A.GF+=ag;A.GA+=hg;
+      if(hg>ag){H.W++;H.Pts+=3;A.L++;} else if(hg<ag){A.W++;A.Pts+=3;H.L++;} else {H.D++;A.D++;H.Pts++;A.Pts++;}
+    });
+  }
+  const tieElo=epElo().elo;
+  return grp.map(t=>rec[t]).sort((a,b)=>{
+    if(b.Pts!==a.Pts) return b.Pts-a.Pts;
+    if((b.GF-b.GA)!==(a.GF-a.GA)) return (b.GF-b.GA)-(a.GF-a.GA);
+    if(b.GF!==a.GF) return b.GF-a.GF;
+    return (tieElo[b.t]||0)-(tieElo[a.t]||0);
+  });
+}
+function fgCurMd(){ let md=0; while(md<3 && S.fg.confirmed[md]) md++; return md; }
+function fgAllFilled(md){
+  for(let g=0;g<6;g++){ const fxs=fgFixtures(g,md); for(let i=0;i<fxs.length;i++){ const v=S.fg.entry[fgKey(g,md,i)]; if(!v||v[0]===''||v[1]===''||v[0]==null||v[1]==null) return false; } }
+  return true;
+}
+function fillFgMd(md, keepTyped){
+  const elo=fgState(md);
+  for(let g=0;g<6;g++){
+    fgFixtures(g,md).forEach((fx,i)=>{
+      const k=fgKey(g,md,i);
+      if(keepTyped){ const v=S.fg.entry[k]; if(v&&v[0]!==''&&v[1]!==''&&v[0]!=null&&v[1]!=null) return; }
+      const ha=fgHomeAdv(g,fx);
+      const [lh,la]=fgLambdas(elo[fx.h], elo[fx.a], ha);
+      S.fg.entry[k]=sampleScore(lh,la);
+    });
+  }
+}
+function advanceFg(){
+  const md=fgCurMd();
+  if(!fgAllFilled(md)) return;
+  S.fg.confirmed[md]={...S.fg.entry}; S.fg.entry={};
+  S.fg.view = fgComplete() ? 'final' : Math.min(fgCurMd(),2);
+  renderFg();
+}
+function simRemainingFg(){
+  while(fgCurMd()<3){ fillFgMd(fgCurMd(),true); S.fg.confirmed[fgCurMd()]={...S.fg.entry}; S.fg.entry={}; }
+  S.fg.view='final'; renderFg();
+}
+function fgComplete(){ return fgCurMd()>=3; }
+
+function fgGroupCard(g, md, locked){
+  const card=document.createElement('div'); card.className='card pop';
+  card.style.setProperty('--tier','var(--A)');
+  const table=fgTable(g);
+  const rows=fgFixtures(g,md).map((fx,i)=>{
+    const k=fgKey(g,md,i);
+    const stored = locked ? (S.fg.confirmed[md]||{})[k] : S.fg.entry[k];
+    const hv=stored?stored[0]:'', av=stored?stored[1]:'';
+    const ha=fgHomeAdv(g,fx)>0?'<span class="fg-ha" title="Home advantage">H</span>':'';
+    return `<div class="fg-match">
+      <span class="fg-team fg-h">${FLAG[fx.h]} ${CODE[fx.h]||fx.h}${fx.homeSlot===0?ha:''}</span>
+      <span class="fg-score">
+        <input class="sc" data-k="${k}" data-s="0" value="${hv}" ${locked?'disabled':''} inputmode="numeric" maxlength="2">
+        <span class="sc-sep">–</span>
+        <input class="sc" data-k="${k}" data-s="1" value="${av}" ${locked?'disabled':''} inputmode="numeric" maxlength="2">
+      </span>
+      <span class="fg-team fg-a">${CODE[fx.a]||fx.a} ${FLAG[fx.a]}</span>
+    </div>`;
+  }).join('');
+  const std=table.map((r,i)=>{
+    const cls=i<2?'fg-adv':(i===2?'fg-third':'');
+    return `<div class="fg-row ${cls}"><span class="fg-pos">${i+1}</span><span class="fg-tm">${FLAG[r.t]} ${CODE[r.t]||r.t}</span>
+      <span class="fg-pld">${r.P}</span><span class="fg-gd">${r.GF-r.GA>0?'+':''}${r.GF-r.GA}</span><span class="fg-pts">${r.Pts}</span></div>`;
+  }).join('');
+  card.innerHTML=`<div class="card-head"><div class="gcode"><span class="tierdot"></span>Group ${FGROUPS[g]}</div>
+    <div class="card-note">${FG_HEAD_CITY[g]} · head plays here</div></div>
+    <div class="fg-matches">${rows}</div>
+    <div class="fg-standings"><div class="fg-row fg-hdr"><span class="fg-pos"></span><span class="fg-tm"></span><span class="fg-pld">P</span><span class="fg-gd">GD</span><span class="fg-pts">Pts</span></div>${std}</div>`;
+  return card;
+}
+function renderFg(){
+  stopAnim();
+  const FG=S.fg || (S.fg=newFg());
+  const board=$('fgboard'); board.innerHTML='';
+  ['fgbtn-adv','fgbtn-elo','fgbtn-reset','fgbtn-knockout'].forEach(id=>$(id).classList.add('hidden'));
+  ['fg-mdslot','fg-simslot','fg-moreslot'].forEach(id=>{const e=$(id); if(e) e.innerHTML='';});
+  if(!S.fdraw||!S.fdraw.drawn){ board.innerHTML='<p class="slots-note">Complete the finals draw first.</p>'; return; }
+  const cur=fgCurMd();
+  const complete=fgComplete();
+  // default to the final page once complete
+  if(complete && typeof FG.view!=='number' && FG.view!=='final') FG.view='final';
+  if(typeof FG.view==='number' && FG.view>Math.min(cur,2)) FG.view=Math.min(cur,2);
+  // matchday dropdown (with Final tables entry when complete)
+  const mdItems=[{kind:'label',label:'Matchday'}];
+  for(let i=0;i<3;i++){ const reach=i<=cur; mdItems.push({label:`Matchday ${i+1}`, sub:FG_DATES[i]+(i<cur?' · done':i===cur?' · current':''), disabled:!reach, current:FG.view===i, onClick:()=>{ FG.view=i; renderFg(); }}); }
+  if(complete){ mdItems.push({kind:'sep'}); mdItems.push({label:'Final tables', sub:'standings & qualifiers', current:FG.view==='final', onClick:()=>{ FG.view='final'; renderFg(); }}); }
+  const mdLabel = FG.view==='final' ? 'Final tables' : `Matchday ${FG.view+1}`;
+  $('fg-mdslot').appendChild(buildMenu(mdLabel, mdItems, {triggerClass:'btn-ghost'}));
+  $('fgbtn-reset').classList.remove('hidden');
+
+  if(FG.view==='final'){
+    renderFgFinal(board);
+    $('fgbtn-elo').classList.remove('hidden');
+    $('fgbtn-knockout').classList.remove('hidden');
+    $('fgcmd-note').textContent='Group stage complete — group winners, runners-up and the four best third-placed teams reach the round of 16.';
+    return;
+  }
+
+  const md=FG.view, locked=md<cur;
+  const gz=document.createElement('div'); gz.className='qgroups';
+  for(let g=0;g<6;g++) gz.appendChild(fgGroupCard(g,md,locked));
+  board.appendChild(gz);
+  bindFgInputs();
+  if(locked){
+    $('fgcmd-note').textContent=`Viewing completed Matchday ${md+1} — results locked.`;
+    if(complete){ $('fgbtn-elo').classList.remove('hidden'); $('fgbtn-knockout').classList.remove('hidden'); }
+  } else {
+    $('fg-simslot').appendChild(buildMenu('Simulate', [
+      {label:'Simulate incomplete fixtures', sub:'keep any scores you typed', onClick:()=>{ fillFgMd(fgCurMd(),true); renderFg(); }},
+      {label:'Simulate all fixtures', sub:'re-roll this matchday', onClick:()=>{ fillFgMd(fgCurMd(),false); renderFg(); }},
+      {kind:'sep'},
+      {label:'Simulate all matchdays', sub:'through to the knockouts', onClick:()=>simRemainingFg()},
+    ], {triggerClass:'btn-gold'}));
+    $('fgbtn-adv').classList.remove('hidden');
+    $('fgbtn-adv').textContent = cur===2 ? 'Finish group stage' : `Advance to MD${cur+2}`;
+    $('fgbtn-adv').disabled=!fgAllFilled(cur);
+    $('fgcmd-note').textContent=$('fgbtn-adv').disabled
+      ? `Matchday ${cur+1} · ${FG_DATES[cur]} 2028 — enter scores or simulate.`
+      : (cur===2?'All set — finish to build the final tables.':'All set — advance to lock results and update Elo.');
+  }
+}
+// The four best third-placed teams (by Pts, GD, GF, then Elo) qualify for the R16.
+function fgBestThirds(){
+  const thirds=[];
+  for(let g=0;g<6;g++){ const tbl=fgTable(g); thirds.push({...tbl[2], g}); }
+  const elo=epElo().elo;
+  const sorted=[...thirds].sort((a,b)=>{
+    if(b.Pts!==a.Pts) return b.Pts-a.Pts;
+    if((b.GF-b.GA)!==(a.GF-a.GA)) return (b.GF-b.GA)-(a.GF-a.GA);
+    if(b.GF!==a.GF) return b.GF-a.GF;
+    return (elo[b.t]||0)-(elo[a.t]||0);
+  });
+  return {sorted, qualified:new Set(sorted.slice(0,4).map(r=>r.t))};
+}
+function renderFgFinal(board){
+  const wrap=document.createElement('div'); wrap.className='qgroups';
+  for(let g=0;g<6;g++){
+    const tbl=fgTable(g);
+    const head=fgGroups()[g][0];
+    const card=document.createElement('div'); card.className='card pop';
+    card.style.setProperty('--tier','var(--A)');
+    const tbody=tbl.map((r,pos)=>{
+      const gd=r.GF-r.GA;
+      const cls=pos<2?'qual':(pos===2?'po':'');
+      return `<tr class="${cls}"><td class="pos">${pos+1}</td>
+        <td class="team">${FLAG[r.t]} ${r.t}</td>
+        <td>${r.P}</td><td>${r.W}</td><td>${r.D}</td><td>${r.L}</td>
+        <td>${r.GF}</td><td>${r.GA}</td><td class="gd ${gd<0?'neg':''}">${gd>0?'+':''}${gd}</td>
+        <td class="pts">${r.Pts}</td></tr>`;
+    }).join('');
+    // per-matchday results summary
+    const mds=[0,1,2].map(md=>{
+      const res=S.fg.confirmed[md]; if(!res) return '';
+      const lines=fgFixtures(g,md).map((fx,i)=>{
+        const sc=res[fgKey(g,md,i)]; if(!sc) return '';
+        return `<div class="fx"><span class="h">${fx.h} ${FLAG[fx.h]}</span><span class="locked">${sc[0]}–${sc[1]}</span><span class="a">${FLAG[fx.a]} ${fx.a}</span></div>`;
+      }).join('');
+      return `<div class="md-label">MD${md+1} · ${FG_DATES[md]}</div>${lines}`;
+    }).join('');
+    card.innerHTML=`<div class="card-head"><div class="gcode"><span class="tierdot"></span>Group ${FGROUPS[g]}</div>
+      <div class="card-note">Winner: <b>${FLAG[tbl[0].t]} ${CODE[tbl[0].t]||tbl[0].t}</b></div></div>
+      <table><thead><tr><th class="pos">#</th><th class="team">Team</th>
+      <th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead>
+      <tbody>${tbody}</tbody></table>
+      <details class="results"><summary><span class="chev"></span>Review results</summary><div class="fixtures nb">${mds}</div></details>`;
+    wrap.appendChild(card);
+  }
+  board.appendChild(wrap);
+  // ---- Best third-placed teams table ----
+  const {sorted,qualified}=fgBestThirds();
+  const rows=sorted.map((r,i)=>{
+    const gd=r.GF-r.GA;
+    const through=qualified.has(r.t);
+    const status=through?'<span class="qtag q">To round of 16</span>':'<span class="qtag po">Eliminated</span>';
+    return `<div class="rk hasstatus${through?'':' exq'}"><span class="n">${i+1}</span>
+      <span class="dot" style="background:var(--${through?'qf':'D'})"></span>
+      <span class="tm">${FLAG[r.t]} ${r.t}</span>
+      <span class="gp">Grp ${FGROUPS[r.g]} · ${r.W}W ${r.D}D ${r.L}L · ${gd>0?'+':''}${gd}</span>
+      <span class="pt">${r.Pts}</span>
+      <span class="rk-status">${status}</span></div>`;
+  }).join('');
+  const bt=document.createElement('div'); bt.className='rank-wrap'; bt.style.marginTop='28px';
+  bt.innerHTML=`<div class="rank-head"><div class="t">Best third-placed teams</div>
+    <div class="s">The four best third-placed teams across the six groups complete the round of 16, ranked by points, then goal difference, goals scored and rating.</div></div>
+    <div class="rank-grid single"><div class="rank-col">${rows}</div></div>`;
+  board.appendChild(bt);
+}
+function bindFgInputs(){
+  document.querySelectorAll('#fgboard .sc').forEach(inp=>{
+    inp.addEventListener('input',()=>{
+      const k=inp.dataset.k, s=+inp.dataset.s;
+      let v=inp.value.replace(/[^0-9]/g,'').slice(0,2); inp.value=v;
+      const cur=S.fg.entry[k]||['',''];
+      cur[s]=v===''?'':+v; S.fg.entry[k]=cur;
+      const md=S.fg.view;
+      $('fgbtn-adv').disabled=!fgAllFilled(md);
+    });
+  });
+}
+
+// ================= EURO 2028 FINALS — KNOCKOUT STAGE =================
+function newKo(){ return {sm:{}, smEt:{}, smP:{}}; }
+// Home advantage: only if the team is a host AND the venue is in its own country.
+function koHomeNation(venue){ return VENUE_NATION[venue]; }
+function koHa(team, venue){ return (HOSTS.includes(team) && VENUE_NATION[venue]===team) ? P.HA : 0; }
+function koDr(elo,h,a,venue){ return (elo[h]+koHa(h,venue)) - (elo[a]+koHa(a,venue)); }
+// Which third-placed teams qualified, and the assignment to each winner.
+function koThirdMap(){
+  const {qualified}=fgBestThirds();
+  const letters=[];
+  for(let g=0;g<6;g++){ const tbl=fgTable(g); if(qualified.has(tbl[2].t)) letters.push(FGROUPS[g]); }
+  letters.sort();
+  const row=THIRD_COMBOS[letters.join('')];
+  if(!row) return null;
+  // row = group letters facing [1B,1C,1E,1F]
+  return {B:row[0], C:row[1], E:row[2], F:row[3]};
+}
+function koResolveRef(ref, tmap){
+  if(ref.k==='w') return fgTable(ref.g)[0].t;
+  if(ref.k==='r') return fgTable(ref.g)[1].t;
+  if(ref.k==='t'){ if(!tmap) return null; const L=tmap[ref.f]; if(!L) return null;
+    return fgTable(FGROUPS.indexOf(L))[2].t; }
+  return null;
+}
+function koRefLabel(ref, tmap){
+  if(ref.k==='w') return `Winner ${FGROUPS[ref.g]}`;
+  if(ref.k==='r') return `Runner-up ${FGROUPS[ref.g]}`;
+  if(ref.k==='t') return tmap?`3rd ${tmap[ref.f]}`:'3rd-placed';
+  return '?';
+}
+// Status of one knockout match (90 -> ET -> pens)
+function koSingle(id){
+  const D=S.ko||newKo(), sc=D.sm[id];
+  const r={ready:false,h:0,a:0,needEt:false,needPens:false,afterEt:false,byPens:false,winner:null};
+  if(!pairOk(sc)) return r;
+  r.ready=true; let h=sc[0],a=sc[1]; r.h=h;r.a=a;
+  if(h!==a){ r.winner=h>a?0:1; return r; }
+  r.needEt=true; const et=D.smEt[id];
+  if(!pairOk(et)) return r;
+  r.afterEt=true; h+=et[0];a+=et[1];r.h=h;r.a=a;
+  if(h!==a){ r.winner=h>a?0:1; return r; }
+  r.needPens=true; const p=D.smP[id];
+  if(!pairOk(p)||p[0]===p[1]) return r;
+  r.byPens=true; r.winner=p[0]>p[1]?0:1; return r;
+}
+// Full bracket. Returns rounds with resolved (or null) teams.
+function koBracket(){
+  const tmap=koThirdMap();
+  const m={}; // id -> {id,h,a,hLabel,aLabel,venue,date}
+  KO_R16.forEach(spec=>{
+    m[spec.id]={id:spec.id, venue:spec.venue, date:spec.date,
+      h:koResolveRef(spec.h,tmap), a:koResolveRef(spec.a,tmap),
+      hLabel:koRefLabel(spec.h,tmap), aLabel:koRefLabel(spec.a,tmap)};
+  });
+  const winnerOf=id=>{ const s=koSingle(id), mm=m[id]; if(!mm||s.winner===null) return null; return s.winner===0?mm.h:mm.a; };
+  const later=(spec,labelPrefix)=>{
+    m[spec.id]={id:spec.id, venue:spec.venue, date:spec.date,
+      h:winnerOf(spec.from[0]), a:winnerOf(spec.from[1]),
+      hLabel:`Winner ${labelPrefix[0]}`, aLabel:`Winner ${labelPrefix[1]}`};
+  };
+  KO_QF.forEach((spec,i)=>later(spec,[`R16-${KO_R16.findIndex(x=>x.id===spec.from[0])+1}`,`R16-${KO_R16.findIndex(x=>x.id===spec.from[1])+1}`]));
+  KO_SF.forEach((spec,i)=>later(spec,[`QF${KO_QF.findIndex(x=>x.id===spec.from[0])+1}`,`QF${KO_QF.findIndex(x=>x.id===spec.from[1])+1}`]));
+  later(KO_FINAL,['SF1','SF2']);
+  return [
+    {name:'Round of 16', matches:KO_R16.map((s,i)=>({...m[s.id], label:`R16-${i+1}`}))},
+    {name:'Quarter-finals', matches:KO_QF.map((s,i)=>({...m[s.id], label:`QF${i+1}`}))},
+    {name:'Semi-finals', matches:KO_SF.map((s,i)=>({...m[s.id], label:`SF${i+1}`}))},
+    {name:'Final', matches:[{...m[KO_FINAL.id], label:'Final'}]}
+  ];
+}
+// Elo through the group stage plus any entered knockout matches.
+function koElo(){
+  const elo={...fgState(3)};
+  if(!S.ko||!fgComplete()) return elo;
+  for(const rd of koBracket()){
+    for(const mt of rd.matches){
+      if(!mt.h||!mt.a) continue;
+      const sc=S.ko.sm[mt.id]; if(!pairOk(sc)) continue;
+      let hg=sc[0], ag=sc[1];
+      const et=S.ko.smEt[mt.id]; if(pairOk(et)){ hg+=et[0]; ag+=et[1]; }
+      const dr=koDr(elo,mt.h,mt.a,mt.venue);
+      const we=1/(1+Math.pow(10,-dr/400));
+      const w=hg>ag?1:(hg===ag?0.5:0);
+      const N=Math.abs(hg-ag), G=N<=1?1:(N===2?1.5:(11+N)/8);
+      const d=P.K*G*(w-we);
+      elo[mt.h]+=d; elo[mt.a]-=d;
+    }
+  }
+  return elo;
+}
+function koFill(mt, preserve){
+  const D=S.ko;
+  if(preserve && pairOk(D.sm[mt.id])) return;
+  const elo=koElo();
+  const sup=koDr(elo,mt.h,mt.a,mt.venue)/P.D;
+  D.sm[mt.id]=sampleScore(Math.max((P.MU+sup)/2,P.FLOOR),Math.max((P.MU-sup)/2,P.FLOOR));
+}
+function koResolve(mt){
+  const D=S.ko; let s=koSingle(mt.id);
+  const elo=koElo();
+  const sup=koDr(elo,mt.h,mt.a,mt.venue)/P.D;
+  if(s.needEt&&!pairOk(D.smEt[mt.id])){
+    D.smEt[mt.id]=sampleScore(Math.max((P.MU+sup)/2,P.FLOOR)/3,Math.max((P.MU-sup)/2,P.FLOOR)/3);
+    s=koSingle(mt.id);
+  }
+  if(s.needPens&&!pairOk(D.smP[mt.id])){
+    const p=1/(1+Math.pow(10,-koDr(elo,mt.h,mt.a,mt.venue)/400));
+    const hw=Math.random()<p, win=3+Math.floor(Math.random()*3), lose=Math.max(0,win-1-Math.floor(Math.random()*3));
+    D.smP[mt.id]=hw?[win,lose]:[lose,win];
+  }
+}
+// Simulate every playable match, round by round (later rounds unlock as winners emerge).
+function koSimAll(preserve){
+  for(let pass=0; pass<4; pass++){
+    for(const rd of koBracket()){
+      for(const mt of rd.matches){
+        if(!mt.h||!mt.a) continue;
+        koFill(mt,preserve); koResolve(mt);
+      }
+    }
+  }
+}
+function koRoundComplete(rd){ return rd.matches.every(mt=>mt.h&&mt.a&&koSingle(mt.id).winner!==null); }
+function koComplete(){ return koSingle('f').winner!==null; }
+function koChampion(){
+  const B=koBracket(), f=B[3].matches[0], s=koSingle('f');
+  if(s.winner===null) return null;
+  return s.winner===0?f.h:f.a;
+}
+
+
+// ---- knockout rendering (Nations League finals card format) ----
+// Downstream dependency map: editing a result clears everything it feeds.
+const KO_FEEDS={r0:'q0',r1:'q0',r2:'q1',r3:'q1',r4:'q2',r5:'q2',r6:'q3',r7:'q3',q0:'s0',q1:'s0',q2:'s1',q3:'s1',s0:'f',s1:'f'};
+function koClear(id){ delete S.ko.sm[id]; delete S.ko.smEt[id]; delete S.ko.smP[id]; }
+function koInvalidateFrom(id){ let n=KO_FEEDS[id]; while(n){ koClear(n); n=KO_FEEDS[n]; } }
+function koResText(mt){
+  const s=koSingle(mt.id), D=S.ko;
+  if(s.winner===null) return '';
+  let t=`${s.h}\u2013${s.a}`;
+  if(s.afterEt) t+=' a.e.t.';
+  if(s.byPens) t+=` \u00b7 ${D.smP[mt.id][0]}\u2013${D.smP[mt.id][1]} on penalties`;
+  return t;
+}
+function koInput(mt,kind,side,team){
+  const D=S.ko, id=mt.id;
+  let val='', min=0, ph='';
+  if(kind==='me'){
+    const base=D.sm[id]||[0,0], et=D.smEt[id]||[null,null];
+    val=Number.isInteger(et[side])?et[side]+base[side]:''; min=base[side]; ph=base[side];
+  } else {
+    const store=kind==='ms'?D.sm:D.smP;
+    const v=store[id]||[null,null]; val=Number.isInteger(v[side])?v[side]:'';
+  }
+  return `<input type="number" min="${min}" max="30" inputmode="numeric" data-ko="${kind}" data-koid="${id}" data-side="${side}" value="${val}" ${ph!==''?`placeholder="${ph}"`:''} class="${val!==''?'filled':''}" aria-label="${team}">`;
+}
+function koCard(mt,gold){
+  const s=koSingle(mt.id), D=S.ko;
+  const card=document.createElement('div'); card.className='qf-card pop';
+  if(!gold) card.style.setProperty('--A','var(--B)');
+  const known=!!(mt.h&&mt.a);
+  const venue=`${mt.venue} \u00b7 ${mt.date} 2028`;
+  let body;
+  if(!known){
+    body=`<div class="qf-body"><div class="leg-label">${venue}</div>
+      <div class="fx"><span class="rest">${mt.hLabel} v ${mt.aLabel} \u2014 to be decided</span></div></div>`;
+  } else {
+    const haTag=t=>koHa(t,mt.venue)>0?'<span class="host-star">Home</span>':'';
+    let lbl=venue, rowBlock;
+    if(s.ready&&s.needEt){
+      const sc=D.sm[mt.id];
+      lbl+=` \u00b7 <span class="after90">${sc[0]}\u2013${sc[1]} after 90\u2032</span><button type="button" class="lnk" data-ko90="${mt.id}">edit 90\u2032</button>`;
+      rowBlock=`<div class="fx"><span class="h">${mt.h} ${FLAG[mt.h]}${haTag(mt.h)}</span><span class="scorebox">${koInput(mt,'me',0,mt.h)}<span class="dash">\u2013</span>${koInput(mt,'me',1,mt.a)}</span><span class="a">${FLAG[mt.a]} ${mt.a}${haTag(mt.a)}<span class="aet-tag">a.e.t.</span></span></div>`;
+    } else {
+      rowBlock=`<div class="fx"><span class="h">${mt.h} ${FLAG[mt.h]}${haTag(mt.h)}</span><span class="scorebox">${koInput(mt,'ms',0,mt.h)}<span class="dash">\u2013</span>${koInput(mt,'ms',1,mt.a)}</span><span class="a">${FLAG[mt.a]} ${mt.a}${haTag(mt.a)}</span></div>`;
+    }
+    let extra='';
+    if(s.ready&&s.needPens){
+      extra+=`<div class="pens-row"><span class="pr-lbl">Penalties</span><span class="scorebox mini">${koInput(mt,'mp',0,mt.h)}<span class="dash">\u2013</span>${koInput(mt,'mp',1,mt.a)}</span><span class="pr-note">${mt.h} first \u00b7 can't be level</span></div>`;
+    }
+    const winner=s.winner===null?null:(s.winner===0?mt.h:mt.a);
+    const verb = mt.id==='f' ? 'are champions of Europe' : (mt.id[0]==='s' ? 'reach the final' : (mt.id[0]==='q' ? 'reach the semi-finals' : 'reach the quarter-finals'));
+    const winLine = winner ? `<div class="winner-line"><b>${FLAG[winner]} ${winner}</b> ${verb} \u00b7 ${koResText(mt)}</div>` : '';
+    body=`<div class="qf-body"><div class="leg-label">${lbl}</div>${rowBlock}${extra}</div>${winLine}`;
+  }
+  const status = !known ? 'TBD' : (s.winner!==null ? `<b>${koResText(mt)}</b>` : '');
+  card.innerHTML=`<div class="qf-head"><span class="qf-title">${mt.label}</span><span class="qf-agg">${status}</span></div>${body}`;
+  return card;
+}
+function renderKo(){
+  stopAnim();
+  const D=S.ko || (S.ko=newKo());
+  const board=$('koboard'); board.innerHTML='';
+  ['kobtn-elo','kobtn-reset'].forEach(id=>$(id).classList.add('hidden'));
+  const ss=$('ko-simslot'); if(ss) ss.innerHTML='';
+  if(!fgComplete()){ board.innerHTML='<p class="slots-note">Finish the group stage first.</p>'; return; }
+  const B=koBracket();
+  const section=(title,sub)=>{ const h=document.createElement('div'); h.className='ko-round-head';
+    h.innerHTML=`${title}${sub?`<span class="ko-round-sub">${sub}</span>`:''}`; return h; };
+  // Round of 16 — two-column grid of finals-style cards
+  board.appendChild(section('Round of 16','24\u201327 June'));
+  const g1=document.createElement('div'); g1.className='qf-grid';
+  B[0].matches.forEach((mt,i)=>g1.appendChild(koCard(mt,i%2===0)));
+  board.appendChild(g1);
+  // Quarter-finals
+  board.appendChild(section('Quarter-finals','30 June \u2013 1 July'));
+  const g2=document.createElement('div'); g2.className='qf-grid';
+  B[1].matches.forEach((mt,i)=>g2.appendChild(koCard(mt,i%2===0)));
+  board.appendChild(g2);
+  // Semi-finals + Final as a bracket, exactly like the Nations League finals page
+  board.appendChild(section('Semi-finals & final','4\u20139 July \u00b7 Wembley'));
+  const bg=document.createElement('div'); bg.className='bracket-grid';
+  const colL=document.createElement('div'); colL.className='bk-col';
+  colL.appendChild(koCard(B[2].matches[0],true));
+  colL.appendChild(koCard(B[2].matches[1],false));
+  const conn=document.createElement('div'); conn.className='bk-conn';
+  const colR=document.createElement('div'); colR.className='bk-colf';
+  colR.appendChild(koCard(B[3].matches[0],true));
+  bg.appendChild(colL); bg.appendChild(conn); bg.appendChild(colR);
+  board.appendChild(bg);
+  // champions banner
+  const champ=koChampion();
+  if(champ){
+    const f=B[3].matches[0], fs=koSingle('f');
+    const runnerUp=fs.winner===0?f.a:f.h;
+    const ban=document.createElement('div'); ban.className='champ pop';
+    ban.innerHTML=`<div class="cup">\ud83c\udfc6</div>
+      <div class="champ-lbl">UEFA Euro 2028 Champions</div>
+      <div class="champ-team">${FLAG[champ]} ${champ}</div>
+      <div class="champ-res">Final \u00b7 Wembley, 9 July 2028<br>${FLAG[champ]} ${champ} ${koResText(f)} ${FLAG[runnerUp]} ${runnerUp}</div>`;
+    board.appendChild(ban);
+  }
+  $('kobtn-reset').classList.remove('hidden');
+  $('kobtn-elo').classList.remove('hidden');
+  if(!koComplete()){
+    $('ko-simslot').appendChild(buildMenu('Simulate', [
+      {label:'Simulate incomplete matches', sub:'keep any scores you typed', onClick:()=>{ koSimAll(true); renderKo(); }},
+      {label:'Simulate everything', sub:'re-roll the whole bracket', onClick:()=>{ S.ko=newKo(); koSimAll(false); renderKo(); }},
+    ], {triggerClass:'btn-gold'}));
+  }
+  $('kocmd-note').textContent = koComplete()
+    ? `${champ} are champions of Europe.`
+    : 'Level matches go to extra time, then penalties. Home advantage applies only to a host playing in its own country.';
+}
+function onKoInput(e){
+  const el=e.target;
+  if(!(el instanceof HTMLInputElement) || el.dataset.ko===undefined) return;
+  const D=S.ko; if(!D) return;
+  const side=+el.dataset.side, k=el.dataset.ko, id=el.dataset.koid;
+  const store = k==='ms'?D.sm : (k==='me'?D.smEt : D.smP);
+  const v=store[id]||[null,null];
+  const n=el.value===''?null:Math.max(0,Math.floor(+el.value));
+  let nv=Number.isFinite(n)?n:null;
+  if(nv!==null && k==='me') nv=Math.max(0, nv-(D.sm[id]||[0,0])[side]);
+  const changed=v[side]!==nv;
+  v[side]=nv; store[id]=v;
+  el.classList.toggle('filled',Number.isInteger(v[side]));
+  if(changed) koInvalidateFrom(id);
+}
+
 
 function eloPanelHtml(elo,title){
   const ts=Object.keys(ELO0).sort((a,b)=>elo[b]-elo[a]);
@@ -3245,6 +4125,19 @@ $('btn-jump').addEventListener('click',()=>{
   b.textContent='Jump to here'; note.classList.add('hidden');
   jumpToQualifying();
 });
+$('btn-jump3').addEventListener('click',()=>{
+  const b=$('btn-jump3'), note=$('jump-note3');
+  if(!b.dataset.armed){
+    b.dataset.armed='1'; b.textContent='Confirm — simulate & jump';
+    note.classList.remove('hidden');
+    clearTimeout(b._t);
+    b._t=setTimeout(()=>{ delete b.dataset.armed; b.textContent='Jump to here'; note.classList.add('hidden'); },8000);
+    return;
+  }
+  clearTimeout(b._t); delete b.dataset.armed;
+  b.textContent='Jump to here'; note.classList.add('hidden');
+  jumpToStage3();
+});
 $('nav-home5').addEventListener('click',()=>{ stopAnim(); show('title'); });
 $('qbtn-main').addEventListener('click',()=>{
   const Q=S.q;
@@ -3256,7 +4149,7 @@ $('qbtn-simfull').addEventListener('click',()=>{ fillQMd(qmdOf(),false); renderQ
 $('qbtn-adv').addEventListener('click',advanceQ);
 $('qbtn-simrem').addEventListener('click',simRemainingQ);
 $('qbtn-restarthere').addEventListener('click',armed($('qbtn-restarthere'),restartQFromHere));
-$('qbtn-reset').addEventListener('click',armed($('qbtn-reset'),()=>{ stopAnim(); S.q={res:null,drawn:false,fx:null,qc:[],qe:{},qview:0}; S.ep=null; renderQ(); }));
+$('qbtn-reset').addEventListener('click',armed($('qbtn-reset'),()=>{ stopAnim(); S.q={res:null,drawn:false,fx:null,qc:[],qe:{},qview:0,_vp:null}; S.ep=null; renderQ(); }));
 $('qbtn-elo').addEventListener('click',()=>toggleEloPanel($('qboard'),'elo-q',qData(10).elo,'Elo ratings · after the qualifying group stage'));
 $('qbtn-playoffs').addEventListener('click',()=>{ if(!S.ep) S.ep=newEp(); renderEp(); show('ep'); });
 $('nav-home6').addEventListener('click',()=>{ stopAnim(); show('title'); });
@@ -3274,6 +4167,29 @@ $('epbtn-elo').addEventListener('click',()=>toggleEloPanel($('epboard'),'elo-ep'
 $('epbtn-qual').addEventListener('click',()=>{ renderQual(); show('qual'); });
 $('nav-home7').addEventListener('click',()=>{ stopAnim(); show('title'); });
 $('qualbtn-elo').addEventListener('click',()=>toggleEloPanel($('qualboard'),'elo-qual',epElo().elo,'Elo ratings · qualified teams'));
+$('nav-home8').addEventListener('click',()=>{ stopAnim(); show('title'); });
+$('fdrawbtn-elo').addEventListener('click',()=>toggleEloPanel($('fdrawboard'),'elo-fdraw',epElo().elo,'Elo ratings · finals draw'));
+$('fdrawbtn-reset').addEventListener('click',armed($('fdrawbtn-reset'),()=>{ stopAnim(); S.fdraw=newFdraw(); S.fg=null; S.ko=null; renderFdraw(); }));
+$('nav-home9').addEventListener('click',()=>{ stopAnim(); show('title'); });
+$('fgbtn-adv').addEventListener('click',advanceFg);
+$('fgbtn-elo').addEventListener('click',()=>toggleEloPanel($('fgboard'),'elo-fg',fgState(fgCurMd()),'Elo ratings · during the group stage'));
+$('fgbtn-reset').addEventListener('click',armed($('fgbtn-reset'),()=>{ stopAnim(); S.fg=newFg(); S.ko=null; renderFg(); }));
+$('fgbtn-knockout').addEventListener('click',()=>{ if(!S.ko) S.ko=newKo(); renderKo(); show('ko'); });
+$('nav-home10').addEventListener('click',()=>{ stopAnim(); show('title'); });
+$('kobtn-elo').addEventListener('click',()=>toggleEloPanel($('koboard'),'elo-ko',koElo(),'Elo ratings · knockout stage'));
+$('kobtn-reset').addEventListener('click',armed($('kobtn-reset'),()=>{ stopAnim(); S.ko=newKo(); renderKo(); }));
+$('koboard').addEventListener('input',onKoInput);
+$('koboard').addEventListener('change',e=>{
+  if(e.target instanceof HTMLInputElement && e.target.dataset.ko!==undefined) renderKo();
+});
+$('koboard').addEventListener('click',e=>{
+  const b=e.target.closest('button[data-ko90]');
+  if(!b||!S.ko) return;
+  const id=b.dataset.ko90;
+  delete S.ko.smEt[id]; delete S.ko.smP[id];
+  koInvalidateFrom(id);
+  renderKo();
+});
 $('epboard').addEventListener('input',e=>{
   const el=e.target;
   if(!(el instanceof HTMLInputElement)||el.dataset.ep===undefined) return;
